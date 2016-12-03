@@ -89,6 +89,7 @@ public:
 };
 
 int main() {
+	cout << 4;
 	Menu a;
 	a.displayStartMenu();
 	a.print();
