@@ -7,7 +7,6 @@ void Snake::move(char opSymbol)
 	char nextSpot = theGame->boardChar(nextPoint);
 	if (nextSpot >= '0' && nextSpot <= '9') {
 		int numCollected = theGame->getNumFromArray(nextPoint);
-		if (numCollected != -1) cout << "SUCCESS!";
 	}
 
 

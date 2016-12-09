@@ -50,10 +50,10 @@ void TheSnakesGame::run()
 	int dir;
 	do
 	{
-
+		this->gameNumbers.addNumber();
 		if (count % 5 == 0) {
 			count = 0;
-			this->gameNumbers.addNumber();
+			
 		}
 	
 		if (_kbhit())
@@ -64,8 +64,8 @@ void TheSnakesGame::run()
 			else if ((dir = s[1]->getDirection(key)) != -1)
 				s[1]->setDirection(dir);
 		}
-		s[0]->move(s[1]->getSymbol());
-		s[1]->move(s[0]->getSymbol());
+		//s[0]->move(s[1]->getSymbol());
+		//s[1]->move(s[0]->getSymbol());
 		count++;
 		Sleep(300);
 	} while (key != ESC);

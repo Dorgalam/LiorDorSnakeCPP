@@ -34,7 +34,7 @@ int randNumbers::generateNumber() {
 }
 int randNumbers::whatNum(const Point& p) {
 	int res = -1;
-	Point left1(p.getX(), (p.getY() - 1) % 80), left2(p.getX(), (p.getY() - 2) % 80);
+	Point left1((p.getX() - 1) % 80 , p.getY()), left2((p.getX() - 2) % 80, p.getY());
 	for (int i = 0; i < numVec.size(); i++) {
 		if (numVec[i].p.isSame(p) || numVec[i].p.isSame(left1) || numVec[i].p.isSame(left2)) res = numVec[i].num;
 	}
