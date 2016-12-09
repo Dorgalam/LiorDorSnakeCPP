@@ -1,50 +1,43 @@
+
 #ifndef _SNAKE_H_
 #define _SNAKE_H_
 
 #include <cstring>
 #include "Point.h"
+#include <vector>
 
 class TheSnakesGame;
 
 class Snake {
 	enum { SIZE = 5 };
 	int size;
-	Point *body;
+	vector<Point> body;
 	int direction = 3; // TODO: use enum!
 	char arrowKeys[4];
 	Color color;
 	TheSnakesGame* theGame;
 	char symbol;
+	bool stuck;
 public:
 	Snake(unsigned int size, char _symbol, Point start, Color c)
 		: symbol(_symbol)
 	{
+		this->stuck = false;
 		this->size = size;
-		body = new Point[size* sizeof(Point)];
-		for (int i = 0; i < size; i++)
+		for (size_t i = 0; i < size; i++)
 		{
-			body[i] = start;
+			body.push_back(start);
 		}
 		setColor(c);
 	}
 	~Snake()
 	{
-		delete(body);
+		body.clear();
 	}
-	Snake(const Snake& s)
-	{
-		Point *body = new Point(sizeof(s.body));
-		body = s.body;
-		int direction = s.direction; // TODO: use enum!
-		char arrowKeys[4];
-		for (int i = 0; i < 4; i++)
-			arrowKeys[i] = s.arrowKeys[i];
-		Color color = s.color;
-		TheSnakesGame* theGame = s.theGame;
-
-
+	bool isStuck() {
+		return stuck;
 	}
-	char getSymbol()  {
+	char getSymbol() {
 		return this->symbol;
 	}
 
@@ -61,7 +54,7 @@ public:
 	void setColor(Color c) {
 		color = c;
 	}
-	void move();
+	void move(char opSymbol);
 	int getDirection(char key);
 	void setDirection(int dir) {
 		direction = dir;

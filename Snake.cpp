@@ -1,21 +1,34 @@
 #include "Snake.h"
 #include "TheSnakesGame.h"
-#include <list>
 
-void Snake::move()
+void Snake::move(char opSymbol)
 {
-	body->back().draw(' ');
-	//body[SIZE - 1].draw(' ');
-	for (int i = SIZE - 1; i > 0; --i)
-		body[i] = body[i - 1];
-		
-
-	if (theGame->isWall(body->pop_front.next(direction), this->symbol))
+	Point nextPoint = body[0].next(direction);
+	char nextSpot = theGame->boardChar(nextPoint);
+	if (nextSpot >= '0' && nextSpot <= '9') {
+		int numCollected = theGame->getNumFromArray(nextPoint);
+		if (numCollected != -1) cout << "SUCCESS!";
+	}
+	bool missionSuccess = false; 
+	bool stop = (nextSpot == symbol);
+	if (!theGame->isWall(nextPoint, symbol))//next direction free
+		stuck = false;
+	if ((theGame->isWall(nextPoint, symbol)|| theGame->isWall(nextPoint, opSymbol))&&direction!=4)
+	{//check if the next direction is already taken - stop the snake movement
 		direction = 4;
-	theGame->updateBoard(body->pop_front.next(direction).getX(), body->pop_front.next(direction).getY(), symbol);
-	body->pop_front.move(direction);
-	setTextColor(color);
-	body->pop_front.draw(symbol);
+		stuck = true;
+	}
+	if (!stuck)
+	{//move the snake on the board
+		body[size - 1].draw(' ');
+		theGame->updateBoard(body[size - 1].getX(), body[size - 1].getY(), ' ');
+		for (int i = size - 1; i > 0; --i)
+			body[i] = body[i - 1];
+		theGame->updateBoard(nextPoint.getX(), nextPoint.getY(), symbol);
+		body[0].move(direction);
+		setTextColor(color);
+		body[0].draw(symbol);
+	}
 }
 int Snake::getDirection(char key)
 {
