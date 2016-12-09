@@ -7,7 +7,8 @@ using namespace std;
 #include "TheSnakesGame.h"
 #include "_board.h"
 #include "randNumbers.h"
-
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
 
 void printNumbers()
 {//every five steps of the snake

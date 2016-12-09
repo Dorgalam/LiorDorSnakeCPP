@@ -29,8 +29,8 @@ void TheSnakesGame::init()
 	}
 	s[0]->setGame(this);
 	s[1]->setGame(this);
-	s[0]->setArrowKeys("wsad");
-	s[1]->setArrowKeys("8546");
+	s[0]->setArrowKeys("wxad");
+	s[1]->setArrowKeys("imjl");
 }
 void TheSnakesGame::printBoard() {
 	for (int i = 0; i < ROWS; i++)
@@ -64,8 +64,8 @@ void TheSnakesGame::run()
 			else if ((dir = s[1]->getDirection(key)) != -1)
 				s[1]->setDirection(dir);
 		}
-		//s[0]->move(s[1]->getSymbol());
-		//s[1]->move(s[0]->getSymbol());
+		s[0]->move(s[1]->getSymbol());
+		s[1]->move(s[0]->getSymbol());
 		count++;
 		Sleep(300);
 	} while (key != ESC);

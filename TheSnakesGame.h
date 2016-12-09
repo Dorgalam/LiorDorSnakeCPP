@@ -40,7 +40,7 @@ public:
 	}
 	void printBoard();
 	void updateBoard(int x, int y, const char let) {
-		board[x][y] = let;
+		board[y][x] = let;
 	}
 	void setBoard(const char* boardToCopy[ROWS]);
 	//void initBoard();
@@ -55,7 +55,8 @@ public:
 		return board[p.getY()][p.getX()];
 	}
 	char boardChar(const int &x, const int &y) {
-		return board[x][y];
+		setTextColor(WHITE);
+		return board[y][x];
 	}
 	void run();
 	

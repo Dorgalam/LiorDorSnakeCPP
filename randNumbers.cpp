@@ -7,9 +7,9 @@ void randNumbers::addNumber() {
 	numVec.push_back(newCoord);
 	string str = to_string(newCoord.num);
  	for (int i = 0; i < newCoord.len; i++) {
-		int x = newCoord.p.getY(), y = newCoord.p.getX();
+		int x = newCoord.p.getX(), y = newCoord.p.getY();
 		game->updateBoard(x, y + i, str[i]);
-		gotoxy(y + i, x);
+		gotoxy(x+ i, y);
 		cout << str[i];
 	}
 }
