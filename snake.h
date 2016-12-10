@@ -51,7 +51,7 @@ public:
 	void setColor(Color c) {
 		color = c;
 	}
-	void move();
+	void move(char opSymbol);
 	int getDirection(char key);
 	void setDirection(int dir) {
 		direction = dir;
