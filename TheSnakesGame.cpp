@@ -29,15 +29,15 @@ void TheSnakesGame::init()
 	}
 	s[0]->setGame(this);
 	s[1]->setGame(this);
-	s[0]->setArrowKeys("wxad");
-	s[1]->setArrowKeys("imjl");
+	s[0]->setArrowKeys("wsad");
+	s[1]->setArrowKeys("8546");
 }
 void TheSnakesGame::printBoard() {
 	for (int i = 0; i < ROWS; i++)
 	{
 		for (int j = 0; j < COLS; j++)
 		{
-			gotoxy(j, i);
+			gotoxy(j, i + 5);
 			cout << board[i][j];
 			cout.flush();
 		}
@@ -50,10 +50,9 @@ void TheSnakesGame::run()
 	int dir;
 	do
 	{
-		this->gameNumbers.addNumber();
 		if (count % 5 == 0) {
 			count = 0;
-			
+			this->gameNumbers.addNumber();
 		}
 	
 		if (_kbhit())

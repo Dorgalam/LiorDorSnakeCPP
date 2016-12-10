@@ -5,7 +5,7 @@
 #include "io_utils.h"
 
 using namespace std;
-
+//x represents row, y column
 class Point {
 	int x, y;
 public:
@@ -25,7 +25,7 @@ public:
 		y = _y;
 	}
 	void draw(char ch) {
-		gotoxy(x, y);
+		gotoxy(y, x + 5);
 		cout << ch;
 		cout.flush();
 	}

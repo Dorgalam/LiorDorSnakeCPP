@@ -8,27 +8,27 @@ void Point::move() {
 void Point::move(int dir) {
 	switch (dir) {
 	case 0: // UP
-		--y;
-		if (y < 5) {
-			y = 29;
+		--x;
+		if (x < 1) {
+			x = 28;
 		}
 		break;
 	case 1: // DOWN
-		++y;
-		if (y > 24) {
-			y = 1;
+		++x;
+		if (x > 28) {
+			x = 1;
 		}
 		break;
 	case 2: // LEFT
-		--x;
-		if (x < 1) {
-			x = 79;
+		--y;
+		if (y < 1) {
+			y = 79;
 		}
 		break;
 	case 3: // RIGHT
-		++x;
-		if (x > 79) {
-			x = 1;
+		++y;
+		if (y > 79) {
+			y = 1;
 		}
 		break;
 	}

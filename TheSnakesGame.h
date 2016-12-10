@@ -30,17 +30,14 @@ public:
 	int getNumFromArray(const Point &p) {
 		return gameNumbers.whatNum(p);
 	}
-	void test() {
-		gameNumbers.addNumber();
-		printBoard();
-	}
+	
 	void startMission() {
 		currMission = rand() % 5;
 		theMenu.newMission(currMission);
 	}
 	void printBoard();
 	void updateBoard(int x, int y, const char let) {
-		board[y][x] = let;
+		board[x][y] = let;
 	}
 	void setBoard(const char* boardToCopy[ROWS]);
 	//void initBoard();
@@ -49,14 +46,14 @@ public:
 		theMenu.displayStartMenu();
 	}
 	bool isWall(const Point& p, char sym) {
-		return board[p.getY()][p.getX()] == sym;
+		return board[p.getX()][p.getY()] == sym;
 	}
 	char boardChar(const Point& p) {
-		return board[p.getY()][p.getX()];
+		return board[p.getX()][p.getY()];
 	}
 	char boardChar(const int &x, const int &y) {
 		setTextColor(WHITE);
-		return board[y][x];
+		return board[x][y];
 	}
 	void run();
 	
