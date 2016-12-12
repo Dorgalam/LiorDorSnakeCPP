@@ -13,22 +13,22 @@ struct numCoord {
 class TheSnakesGame;
 class Mission;
 class randNumbers {
-	vector<numCoord> numVec;
-	Mission *m;
+	vector<numCoord> numVec; //saves all on board random values
+	Mission *m; //pointer to the mission 
 	TheSnakesGame *game;
 public:
-	randNumbers(TheSnakesGame *_game): game(_game) {}
+	randNumbers(TheSnakesGame *_game): game(_game) {} //constructor, just put game's value inside
 	
-	int generateNumber();
-	numCoord randNumbers::findSpot();
-	int getSize() { return numVec.size(); }
-	bool checkSpot(const int& x, const int& y, const int& len);
-	void addNumber();
-	int whatNum(const Point &p);
-	void removeHalf() ;
-	bool goodNum(int numMission, int num);
-	bool showNumbers(int num);
-	void removeAll();
+	int generateNumber(); //creates a random as required
+	numCoord randNumbers::findSpot(); //find a suitable spot in the board
+	int getSize() { return numVec.size(); } //just to pipe value forward
+	bool checkSpot(const int& x, const int& y, const int& len); //checks if a specific spot on the board is suitable
+	void addNumber();//add the generated number to the vector
+	int whatNum(const Point &p); //given a point, returns the number that sits inside
+	void removeHalf(); //removes half of the nubmers from the board, the vector and the actual screen
+	bool goodNum(int numMission, int num);//checks if the number fits the mission requirements
+	bool showNumbers(int num);//shows the numbers that fit the mission
+	void removeAll(); //removes all numbers from vec/board etc
 };
 
 

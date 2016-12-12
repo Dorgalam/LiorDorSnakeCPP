@@ -26,7 +26,7 @@ public:
 		: symbol(_symbol)
 	{
 		this->size = size;
-		for (int i = 0; i < size; i++)
+		for (unsigned int i = 0; i < size; i++)
 		{
 			body.push_back(start);
 		}

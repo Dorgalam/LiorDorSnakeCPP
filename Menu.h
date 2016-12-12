@@ -28,7 +28,7 @@ class Menu  {
 		"(1) Instructions",
 		"(2) Start",
 		"(9) Exit",
-	};
+	}; //string instructions
 	char *inGameMenu[6] = {
 		"(1) Exit",
 		"(2) Main Menu",
@@ -36,19 +36,19 @@ class Menu  {
 		"(4) Restart Mission",
 		"(5) New Mission",
 	    "(6) Restart Game",
-	};
+	}; //menu items
 	char *missions[7] = {
 		"Prime number",
 		"Number divisible by 4",
 		"Product of 7",
 		"Squared Integer",
 		"Divided by 7 remainder is 3",
-		"Look for number 169",
-		"Find polyndrom number-from each side look the same,131 in example",
-	};
+		"Look for the number 169",
+		"Find a Palindrome number",
+	}; // string missions
 	char *instructions = {
 		"Two snakes battling over mathematical superiority.\nControl the greed $ snake with 'wxad', the more calculated # snake with 'ijkl'.\nComplete missions to score points and eventually win.\nBeware, wrong solutions will result in the other players point.\nThe first to get to 12 points win the Game(start from 3)!\nGood luck and may Sir Isaac Newton be with you!"
-	};
+	}; //humoristic instructions
 	char *snakeWonMission[2] = {
 		"Snake 1 won this round",
 		"Snake 2 won this round",
@@ -70,7 +70,7 @@ public:
 			//system("color f");
 			setTextColor(c);
 			cout << item;
-		}
+		} //constructor, go over all items and print
 	}
 	void setColor(Color c) {
 		txtColor = c;
@@ -79,19 +79,19 @@ public:
 		for (size_t i = 0; i < strlen(str); i++) {
 			screen[x][y + i ] = str[i];
 		}
-	}
+	} //edit the menu
 
 	void clear() {
 		for (int i = 1; i < 4; i++) {
 			for (int j = 1; j < 67; j++) screen[i][j] = ' ';
 		}
-	}
+	}//clear everytthing within the menu
 	void newMission(int numMission) {
 		clear();
 		edit(2, 33 - strlen(missions[numMission]) / 2, missions[numMission]);
 		print(WHITE);
-	}
-	void displayStartMenu();
+	}//print the new mission in the menu
+	void displayStartMenu(); 
 	void displayInstructions() {
 		gotoxy(0, 5);
 		cout << instructions;
@@ -102,6 +102,7 @@ public:
 	void displayVictoryMenu(int num);
 	void displayNumMenu(bool num);
 	void updateScoreBoard(int score1, int score2);
+	//self explanatory function names
 };
 
 #endif

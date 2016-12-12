@@ -2,9 +2,11 @@
 #include "TheSnakesGame.h"
 #include <string>   
 
+enum { OFFSET = 5 };
+
 bool randNumbers::goodNum(int numMission, int num)
 {
-	switch (numMission) {
+	switch (numMission) { //go through all options for numMission and return correct function value
 	case 0:
 		return m->isPrime(num);
 		break;
@@ -34,17 +36,16 @@ bool randNumbers::goodNum(int numMission, int num)
 bool randNumbers::showNumbers(int num)
 {
 	int size = numVec.size();
-	int x, y;
 	bool findNum = false;
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < size; i++) //loop through all numbers to find correct ones for this mission
 	{
 		if (goodNum(num, numVec[i].num))
 		{
-			game->flashNum(numVec[i], YELLOW);
+			game->flashNum(numVec[i], YELLOW); 
 			findNum = true;
 		}
 	}
-	if (findNum)
+	if (findNum) //we want to show them for a coupele of seconds and then move on
 	{
 		Sleep(3000);
 		for (int i = 0; i < size; i++)
@@ -62,10 +63,10 @@ bool randNumbers::showNumbers(int num)
 void randNumbers::removeAll() {
 	int size = numVec.size();
 	int x, y;
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < size; i++) { //loop through all numbers in the vector and remove them from everywhere
 		y = numVec[i].p.getY();
 		x = numVec[i].p.getX();
-		gotoxy(y, x + 5);
+		gotoxy(y, x + OFFSET);
 		for (int j = 0; j < (int)(log10(numVec[i].num) + 1); j++) {
 			cout << ' ';
 			this->game->updateBoard(x, y + j, ' ');
@@ -79,7 +80,7 @@ void randNumbers::removeHalf() {
 	for (int i = 0; i < size / 2; i++) {
 		y = numVec[i].p.getY();
 		x = numVec[i].p.getX();
-		gotoxy(y, x + 5);
+		gotoxy(y, x + OFFSET);
 		for (int j = 0; j < (int)(log10(numVec[i].num) + 1); j++) {
 			cout << ' ';
 			this->game->updateBoard(x, y + j, ' ');
@@ -94,7 +95,7 @@ void randNumbers::addNumber() {
 	int x = newCoord.p.getX(), y = newCoord.p.getY();
  	for (int i = 0; i < newCoord.len; i++) {
 		game->updateBoard(x, y + i, str[i]);
-		gotoxy(y + i, x +5);
+		gotoxy(y + i, x + OFFSET);
 		cout << str[i];
 	}
 	
@@ -122,7 +123,7 @@ int randNumbers::generateNumber() {
 int randNumbers::whatNum(const Point& p) {
 	int res = -1;
 	Point left1(p.getX(), (p.getY() - 1) % 80), left2(p.getX(), (p.getY() -2) % 80);
-	for (int i = 0; i < numVec.size(); i++) {
+	for (unsigned int i = 0; i < numVec.size(); i++) {
 		if (numVec[i].p.isSame(p) || numVec[i].p.isSame(left1) || numVec[i].p.isSame(left2)) {
 			res = numVec[i].num;
 			swap(numVec[0], numVec[i]);

@@ -11,7 +11,6 @@ void TheSnakesGame::finishMission()
 }
 void TheSnakesGame::flashNum(numCoord numVec, Color color)
 {
-	char ch;
 	setTextColor(color);
 	string str = to_string(numVec.num);
 	int x = numVec.p.getX(), y = numVec.p.getY();

@@ -27,14 +27,14 @@ public:
 		s[1] = new Snake(2,3, '#', Point(9, 70), RED);
 		system("mode con:cols=80 lines=30");
 	}
-	int getNumFromArray(const Point &p) {
+	int getNumFromArray(const Point &p) { //pipe through the randNumbers class for easy access 
 		return gameNumbers.whatNum(p);
 	}
 	int getCurrMission() {
 		return currMission;
 	}
 	void startMission() { //create random display new mission in menu
-		currMission = rand() % 7;
+		currMission = rand() % 7; 
 		theMenu.newMission(currMission);
 
 	}
@@ -43,7 +43,6 @@ public:
 		board[x][y] = let;
 	}
 	void setBoard(const char* boardToCopy[ROWS]);
-	//void initBoard();
 	void init();
 	void displayStartMenu() {
 		s[0]->clearBody();

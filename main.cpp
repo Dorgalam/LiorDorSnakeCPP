@@ -15,11 +15,8 @@ using namespace std;
 
 
 int main() {
-	//printNumbers();
 	TheSnakesGame game;
 	game.setBoard(board);
 	game.displayStartMenu();
-	
-	//game.init();
 	game.run();
 }

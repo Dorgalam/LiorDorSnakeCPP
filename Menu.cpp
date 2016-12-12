@@ -6,14 +6,14 @@ void Menu::updateScoreBoard(int score1, int score2)
 	char s1[3], s2[3];
 	s1[0] = score1 / 10 + '0';
 	s1[1] = score1 % 10 + '0';
-	s2[0] = score2 / 10 + '0';
+	s2[0] = score2 / 10 + '0'; //go to all correct spots and update locations
 	s2[1] = score2 % 10 + '0';
 	s1[2] = '\0';
 	s2[2] = '\0';
 	edit(2, 76, s1);
 	edit(3, 76, s2);
 	print(WHITE);
-}
+} 
 void Menu::displayStartMenu() {
 	char key;
 	bool goodChoice = false;
@@ -22,14 +22,14 @@ void Menu::displayStartMenu() {
 	edit(2, 2, startMenu[1]);
 	edit(3, 2, startMenu[2]);
 	print(WHITE);
-	while (!_kbhit())
+	while (!_kbhit()) //listen to a new key pressed in the keyboard
 	{
 
 	}
 	key = _getch();
 	while (!goodChoice)
 	{
-		switch (key) {
+		switch (key) { //give correct output for all known results, otherwise look for another key
 		case START:
 			game->init();
 			goodChoice = true;
@@ -51,12 +51,11 @@ void Menu::displayStartMenu() {
 			break;
 		}
 	}
-	
 }
 void Menu::displayWinningMenu(int num)
 {
-	clear();
-	edit(1, 2, snakeWonMission[num]);
+	clear(); //clears the screen and then shows who won
+	edit(1, 2, snakeWonMission[num]); 
 	print(YELLOW);
 	Sleep(2000);
 }
@@ -76,19 +75,18 @@ void Menu::displayNumMenu(bool found)
 	else
 		num = 0;
 	clear();
-	edit(1, 2, Num60Menu[num]);
+	edit(1, 2, Num60Menu[num]); 
 	print(LIGHTCYAN);
 	Sleep(2500);
 }
 int Menu::displayIngameMenu() {
-	int choice;
 	char key;
 	clear();
 	for (int i = 0; i < 6; i++) {
 		edit((i % 3) + 1, 2 + 20 * (i / 3), inGameMenu[i]);
 	}
 	print(WHITE);
-	while (!_kbhit())
+	while (!_kbhit()) //listens to a key and operates accordingly
 	{
 
 	}
