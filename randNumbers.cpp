@@ -1,7 +1,92 @@
 #include "randNumbers.h"
 #include "TheSnakesGame.h"
-#include <string>
+#include <string>   
 
+bool randNumbers::goodNum(int numMission, int num)
+{
+	switch (numMission) {
+	case 0:
+		return m->isPrime(num);
+		break;
+	case 1:
+		return m->div4(num);
+		break;
+	case 2:
+		return m->div7(num);
+		break;
+	case 3:
+		return m->isSquare(num);
+		break;
+	case 4:
+		return m->div7rem3(num);
+		break;
+	case 5:
+		return m->is169(num);
+		break;
+	case 6:
+		return m->isPalindrom(num);
+		break;
+	default:
+		return false;
+		break;
+	}
+}
+bool randNumbers::showNumbers(int num)
+{
+	int size = numVec.size();
+	int x, y;
+	bool findNum = false;
+	for (int i = 0; i < size; i++)
+	{
+		if (goodNum(num, numVec[i].num))
+		{
+			game->flashNum(numVec[i], YELLOW);
+			findNum = true;
+		}
+	}
+	if (findNum)
+	{
+		Sleep(3000);
+		for (int i = 0; i < size; i++)
+		{
+			if (goodNum(num, numVec[i].num))
+			{
+				game->flashNum(numVec[i], WHITE);
+				findNum = true;
+			}
+		}
+	}
+	return findNum;
+
+}
+void randNumbers::removeAll() {
+	int size = numVec.size();
+	int x, y;
+	for (int i = 0; i < size; i++) {
+		y = numVec[i].p.getY();
+		x = numVec[i].p.getX();
+		gotoxy(y, x + 5);
+		for (int j = 0; j < (int)(log10(numVec[i].num) + 1); j++) {
+			cout << ' ';
+			this->game->updateBoard(x, y + j, ' ');
+		}
+	}
+	numVec.erase(numVec.begin(), numVec.begin() + size / 2);
+}
+void randNumbers::removeHalf() {
+	int size = numVec.size();
+	int x, y;
+	for (int i = 0; i < size / 2; i++) {
+		y = numVec[i].p.getY();
+		x = numVec[i].p.getX();
+		gotoxy(y, x + 5);
+		for (int j = 0; j < (int)(log10(numVec[i].num) + 1); j++) {
+			cout << ' ';
+			this->game->updateBoard(x, y + j, ' ');
+		}
+	}
+	numVec.erase(numVec.begin(), numVec.begin() + size / 2);
+}
 void randNumbers::addNumber() {
 	numCoord newCoord = findSpot();
 	numVec.push_back(newCoord);
@@ -9,7 +94,7 @@ void randNumbers::addNumber() {
 	int x = newCoord.p.getX(), y = newCoord.p.getY();
  	for (int i = 0; i < newCoord.len; i++) {
 		game->updateBoard(x, y + i, str[i]);
-		gotoxy(y + i, x + 5);
+		gotoxy(y + i, x +5);
 		cout << str[i];
 	}
 	
@@ -38,7 +123,10 @@ int randNumbers::whatNum(const Point& p) {
 	int res = -1;
 	Point left1(p.getX(), (p.getY() - 1) % 80), left2(p.getX(), (p.getY() -2) % 80);
 	for (int i = 0; i < numVec.size(); i++) {
-		if (numVec[i].p.isSame(p) || numVec[i].p.isSame(left1) || numVec[i].p.isSame(left2)) res = numVec[i].num;
+		if (numVec[i].p.isSame(p) || numVec[i].p.isSame(left1) || numVec[i].p.isSame(left2)) {
+			res = numVec[i].num;
+			swap(numVec[0], numVec[i]);
+		}
 	}
 	return res;
 }

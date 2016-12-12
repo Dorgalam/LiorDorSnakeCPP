@@ -9,14 +9,14 @@ void Point::move(int dir) {
 	switch (dir) {
 	case 0: // UP
 		--x;
-		if (x < 1) {
-			x = 28;
+		if (x < 0) {
+			x = 23;
 		}
 		break;
 	case 1: // DOWN
 		++x;
-		if (x > 28) {
-			x = 1;
+		if (x > 23) {
+			x = 0;
 		}
 		break;
 	case 2: // LEFT

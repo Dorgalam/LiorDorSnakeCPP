@@ -11,17 +11,24 @@ struct numCoord {
 	Point p;
 };
 class TheSnakesGame;
+class Mission;
 class randNumbers {
 	vector<numCoord> numVec;
+	Mission *m;
 	TheSnakesGame *game;
 public:
 	randNumbers(TheSnakesGame *_game): game(_game) {}
 	
 	int generateNumber();
 	numCoord randNumbers::findSpot();
+	int getSize() { return numVec.size(); }
 	bool checkSpot(const int& x, const int& y, const int& len);
 	void addNumber();
 	int whatNum(const Point &p);
+	void removeHalf() ;
+	bool goodNum(int numMission, int num);
+	bool showNumbers(int num);
+	void removeAll();
 };
 
 

@@ -2,15 +2,15 @@
 #include "Menu.h"
 
 bool Mission::isPrime(int n) {
-	bool res = (n % 2 == 0 ? true : false);
-	for (int i = 3; i <= sqrt(n) && res; i += 2)
+	for (int i = 2; i <= n / 2; ++i)
 	{
-		(n % i == 0 ? res = false : 0);
+		if (n % i == 0)
+			return false;
 	}
-	return res;
+	return true;
 }
 void Mission::startMission() {
 	bool correct = false;
-	currMission = (rand() % 5);
+	currMission = (rand() % 7);
 	theMenu->newMission(currMission);
 }

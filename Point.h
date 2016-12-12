@@ -25,7 +25,7 @@ public:
 		y = _y;
 	}
 	void draw(char ch) {
-		gotoxy(y, x + 5);
+		gotoxy(y, x+5);
 		cout << ch;
 		cout.flush();
 	}

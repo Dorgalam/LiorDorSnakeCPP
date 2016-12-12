@@ -41,6 +41,7 @@ enum Color
 	LIGHTMAGENTA=13,
 	YELLOW=14,
 	WHITE=15
+	
 };
 
 #endif

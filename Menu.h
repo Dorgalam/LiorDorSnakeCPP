@@ -5,28 +5,29 @@
 
 using namespace std;
 
-enum { INSTRUCTIONS = 1, START, EXIT_START = 9 };
-enum { EXIT_MID = 1, MAIN_MENU, RESUME, RESTART_MISSION, NEW_MISSION, RESTART_GAME };
+enum { INSTRUCTIONS = '1', START='2', EXIT_START = '9' };
+enum { EXIT_MID = '1', MAIN_MENU='2', RESUME='3', RESTART_MISSION='4', NEW_MISSION='5', RESTART_GAME='6' };
 
 class TheSnakesGame;
-
+class Mission;
 
 class Menu  {
 	TheSnakesGame *game;
 	Mission *mission;
+	Color txtColor=WHITE;
 	char screen[5][82] = {
 		//		  10        20        30        40        50        60        70   
 		//01234567890123456789012345678901234567890123456789012345678901234567890123456789 
 		"--------------------------------------------------------------------------------",// 0
-		"|                                                                              |",// 1
-		"|                                                                              |",// 2
-		"|                                                                              |",// 3
+		"|                                                                  GAME SCORE: |",// 1
+		"|                                                                  SNAKE 1:    |",// 2
+		"|                                                                  SNAKE 2:    |",// 3
 		"--------------------------------------------------------------------------------",// 4
 	};
 	char *startMenu[3] = {
 		"(1) Instructions",
 		"(2) Start",
-		"(9) Exit"
+		"(9) Exit",
 	};
 	char *inGameMenu[6] = {
 		"(1) Exit",
@@ -34,47 +35,73 @@ class Menu  {
 		"(3) Resume",
 		"(4) Restart Mission",
 		"(5) New Mission",
-		"(6) Restart Game"
+	    "(6) Restart Game",
 	};
-	char *missions[5] = {
+	char *missions[7] = {
 		"Prime number",
 		"Number divisible by 4",
 		"Product of 7",
 		"Squared Integer",
-		"Divided by 7 remainder is 3"
+		"Divided by 7 remainder is 3",
+		"Look for number 169",
+		"Find polyndrom number-from each side look the same,131 in example",
+	};
+	char *instructions = {
+		"Two snakes battling over mathematical superiority.\nControl the greed $ snake with 'wxad', the more calculated # snake with 'ijkl'.\nComplete missions to score points and eventually win.\nBeware, wrong solutions will result in the other players point.\nThe first to get to 12 points win the Game(start from 3)!\nGood luck and may Sir Isaac Newton be with you!"
+	};
+	char *snakeWonMission[2] = {
+		"Snake 1 won this round",
+		"Snake 2 won this round",
+	};
+	char *Num60Menu[2] = {
+		"There is no correct number ,good try!!!",
+		"All the yellow numbers were possible answers,try better next time",
+	};
+	char *victoryMenu[2] = {
+		"congratulation:) snake 1 won the game!!!",
+		"congratulation:) snake 2 won the game!!!",
 	};
 public:
 	Menu(TheSnakesGame *_game) : game(_game) {}
-	void print() {
+	void print(Color c) {
 		int i = 0;
-		gotoxy(0, 0);
 		for (char *item : screen) {
 			gotoxy(0, i++);
+			//system("color f");
+			setTextColor(c);
 			cout << item;
 		}
 	}
-
+	void setColor(Color c) {
+		txtColor = c;
+	}
 	void edit(int x, int y, char *str) {
 		for (size_t i = 0; i < strlen(str); i++) {
 			screen[x][y + i ] = str[i];
 		}
 	}
+
 	void clear() {
 		for (int i = 1; i < 4; i++) {
-			for (int j = 1; j < 78; j++) screen[i][j] = ' ';
+			for (int j = 1; j < 67; j++) screen[i][j] = ' ';
 		}
 	}
 	void newMission(int numMission) {
-		this->clear();
-		edit(2, 39 - strlen(missions[numMission]) / 2, missions[numMission]);
+		clear();
+		edit(2, 33 - strlen(missions[numMission]) / 2, missions[numMission]);
+		print(WHITE);
 	}
 	void displayStartMenu();
 	void displayInstructions() {
-		char *instructions = "just get on with it and play this freaking game!";
-		edit(3, 3, instructions);
+		gotoxy(0, 5);
+		cout << instructions;
+		displayStartMenu();
 	}
-	void displayIngameMenu();
-
+	int displayIngameMenu();
+	void displayWinningMenu(int num);
+	void displayVictoryMenu(int num);
+	void displayNumMenu(bool num);
+	void updateScoreBoard(int score1, int score2);
 };
 
 #endif

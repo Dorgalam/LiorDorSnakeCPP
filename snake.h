@@ -5,35 +5,49 @@
 #include <cstring>
 #include "Point.h"
 #include <vector>
+#include "Mission.h"
 
 class TheSnakesGame;
 
 class Snake {
 	enum { SIZE = 5 };
+	enum { UP=0,DOWN,LEFT,RIGHT};
 	int size;
 	vector<Point> body;
-	int direction = 3; // TODO: use enum!
+	int direction; // TODO: use enum!
 	char arrowKeys[4];
 	Color color;
+	Mission m;
 	TheSnakesGame* theGame;
 	char symbol;
+	bool stuck;
 public:
-	Snake(unsigned int size, char _symbol, Point start, Color c)
+	Snake(int dir,unsigned int size, char _symbol, Point start, Color c)
 		: symbol(_symbol)
 	{
 		this->size = size;
 		for (int i = 0; i < size; i++)
 		{
-			body.insert(body.end(), start);
-			//body.push_back(start);
+			body.push_back(start);
 		}
 		setColor(c);
+		direction = dir;
 	}
 	~Snake()
 	{
 		body.clear();
 	}
-
+	void newSnake(int x,int y,int dir)
+	{
+		Point p;
+		p.set(x, y);
+		for (int i = 0; i < 3; i++)
+		{
+			body.push_back(p);
+		}
+		direction = dir;
+		size = 3;
+	}
 	char getSymbol() {
 		return this->symbol;
 	}
@@ -51,12 +65,30 @@ public:
 	void setColor(Color c) {
 		color = c;
 	}
-	void move(char opSymbol);
+	int move(char opSymbol, int numOfMission);
 	int getDirection(char key);
 	void setDirection(int dir) {
 		direction = dir;
 	}
-
+	int getSize() { return size; }
+	bool goodNum(int numMission,int num);
+	void snakeGrow()
+	{
+		body.push_back(body[size-1]);
+		size++;
+	}
+	void backToStart(int x,int y,int dir)
+	{
+		for (int i = 0; i < size; i++)
+			body[i].set(x,y);
+		direction = dir;
+	}
+	void clearSnake();
+	void clearBody() {
+		for (int i = 0; i < size; i++)
+			body.pop_back();
+		size = 0;
+	}
 };
 
 #endif

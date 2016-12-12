@@ -3,7 +3,7 @@
 #include "io_utils.h"
 
 enum {
-	PRIME, DIV4, DIV7, IS_SQUARE, DIV7REM3, IS169
+	PRIME, DIV4, DIV7, IS_SQUARE, DIV7REM3, IS169,ISPALINDROM
 };
 
 class Menu;
@@ -15,16 +15,13 @@ public:
 	void startMission();
 
 
-	bool isPrime(int n);
-	bool div4(int n) { return n % 4 == 0; }
-	bool div7(int n) { return n % 7 == 0; }
-	bool isSquare(int n) { return (int)sqrt(n) == (sqrt(n)); }
-	bool div7rem3(int n) { return n % 7 == 3; }
-	bool is169(int n) { return n == 169; }
-
-
-
-	bool isPalindrom(int n)//put explanation about this task:polyndrom number is 131 in example
+	bool isPrime(int n);//0
+	bool div4(int n) { return n % 4 == 0; }//1
+	bool div7(int n) { return n % 7 == 0; }//2
+	bool isSquare(int n) { return (int)sqrt(n) == (sqrt(n)); }//3
+	bool div7rem3(int n) { return n % 7 == 3; }//4
+	bool is169(int n) { return n == 169; }//5
+	bool isPalindrom(int n)//6 - put explanation about this task:polyndrom number is 131 in example
 	{
 		if (n < 10)
 			return true;
@@ -32,10 +29,6 @@ public:
 			return n % 10 == n / 10 ? true : false;
 		else
 			return n / 100 == n % 10 ? true : false;
-	}
-	bool is5plusSqrt121(int n)
-	{
-		return n == 16 ? true : false;
 	}
 };
 
