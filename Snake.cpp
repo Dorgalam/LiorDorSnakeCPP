@@ -33,6 +33,10 @@ bool Snake::goodNum(int numMission,int num)
 	case 6:
 		return m.isPalindrom(num);
 	default:
+	case 7:
+		getGameM(theGame->returnM());
+		return m.mathExe(num);
+		break;
 		return false;
 		break;
 	}

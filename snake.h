@@ -11,7 +11,8 @@ class TheSnakesGame;
 
 class Snake {
 	enum { SIZE = 5 };
-	enum { UP=0,DOWN,LEFT,RIGHT};
+	enum { UP = 0, DOWN, LEFT, RIGHT };
+
 	int size;
 	vector<Point> body;
 	int direction; // TODO: use enum!
@@ -88,6 +89,10 @@ public:
 		for (int i = 0; i < size; i++)
 			body.pop_back();
 		size = 0;
+	}
+	void getGameM(Mission gameM)
+	{
+		m = gameM;
 	}
 };
 

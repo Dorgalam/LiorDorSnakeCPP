@@ -3,8 +3,9 @@
 #include "io_utils.h"
 
 enum {
-	PRIME, DIV4, DIV7, IS_SQUARE, DIV7REM3, IS169,ISPALINDROM
+	PRIME, DIV4, DIV7, IS_SQUARE, DIV7REM3, IS169,ISPALINDROM,UNKNOWN_QUE
 };
+enum { FreeSpace = -1 };//the free space for the number
 
 //mission class, keeps track of and checks mission status
 
@@ -13,6 +14,7 @@ class Menu;
 class Mission {
 	int currMission;
 	Menu *theMenu;
+	char *mission7;
 public:
 	void startMission();
 
@@ -23,14 +25,19 @@ public:
 	bool isSquare(int n) { return (int)sqrt(n) == (sqrt(n)); }//3
 	bool div7rem3(int n) { return n % 7 == 3; }//4
 	bool is169(int n) { return n == 169; }//5
-	bool isPalindrom(int n)//6 - put explanation about this task:polyndrom number is 131 in example
+	bool isPalindrom(int n);//6 - palindrom number is 131 in example
+	void getNums(char *str, int nums[]);
+	void getOP(char *str, char ops[]);
+	bool mathExe(int n);//7
+	bool helperMath(int nums[], char op1, char op2);
+	void set7(char * str)
 	{
-		if (n < 10)
-			return true;
-		else if (n<100)
-			return n % 10 == n / 10 ? true : false;
-		else
-			return n / 100 == n % 10 ? true : false;
+		mission7 = new char[25];
+		strcpy(mission7, str);
+	}
+	void free7()
+	{
+		free(mission7);
 	}
 };
 

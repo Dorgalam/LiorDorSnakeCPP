@@ -3,7 +3,7 @@
 
 #include "Point.h"
 #include <vector>
-
+#include "Mission.h"
 
 struct numCoord {
 	int num;
@@ -14,7 +14,7 @@ class TheSnakesGame;
 class Mission;
 class randNumbers {
 	vector<numCoord> numVec; //saves all on board random values
-	Mission *m; //pointer to the mission 
+	Mission m;  
 	TheSnakesGame *game;
 public:
 	randNumbers(TheSnakesGame *_game): game(_game) {} //constructor, just put game's value inside

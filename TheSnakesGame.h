@@ -13,6 +13,7 @@ class TheSnakesGame {
 	enum { ESC = 27 };
 	Snake **s;
 	Menu theMenu;
+	Mission mission;
 	randNumbers gameNumbers;
 	int currMission;
 	int shownNumbers[60];
@@ -34,8 +35,10 @@ public:
 		return currMission;
 	}
 	void startMission() { //create random display new mission in menu
-		currMission = rand() % 7; 
+		currMission = rand() % 8;
 		theMenu.newMission(currMission);
+		if (currMission == 7)
+			mission.set7(theMenu.getM7());
 
 	}
 	void printBoard();
@@ -68,6 +71,10 @@ public:
 	void run();
 	void nextMission();
 	void flashNum(numCoord numVec, Color color);
+	Mission returnM()
+	{
+		return mission;
+	}
 };
 
 #endif

@@ -3,36 +3,40 @@
 #include <string>   
 
 enum { OFFSET = 5 };
-
 bool randNumbers::goodNum(int numMission, int num)
 {
-	switch (numMission) { //go through all options for numMission and return correct function value
+	switch (numMission) {//go through all options for numMission and return correct function value
 	case 0:
-		return m->isPrime(num);
+		return m.isPrime(num);
 		break;
 	case 1:
-		return m->div4(num);
+		return m.div4(num);
 		break;
 	case 2:
-		return m->div7(num);
+		return m.div7(num);
 		break;
 	case 3:
-		return m->isSquare(num);
+		return m.isSquare(num);
 		break;
 	case 4:
-		return m->div7rem3(num);
+		return m.div7rem3(num);
 		break;
 	case 5:
-		return m->is169(num);
+		return m.is169(num);
 		break;
 	case 6:
-		return m->isPalindrom(num);
+		return m.isPalindrom(num);
+		break;
+	case 7:
+		m = game->returnM();
+		return m.mathExe(num);
 		break;
 	default:
 		return false;
 		break;
 	}
 }
+
 bool randNumbers::showNumbers(int num)
 {
 	int size = numVec.size();

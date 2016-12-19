@@ -7,7 +7,7 @@ using namespace std;
 
 enum { INSTRUCTIONS = '1', START='2', EXIT_START = '9' };
 enum { EXIT_MID = '1', MAIN_MENU='2', RESUME='3', RESTART_MISSION='4', NEW_MISSION='5', RESTART_GAME='6' };
-
+enum {Plus=0,Minus,Mult,Div};
 class TheSnakesGame;
 class Mission;
 
@@ -37,7 +37,7 @@ class Menu  {
 		"(5) New Mission",
 	    "(6) Restart Game",
 	}; //menu items
-	char *missions[7] = {
+	char *missions[8] = {
 		"Prime number",
 		"Number divisible by 4",
 		"Product of 7",
@@ -86,8 +86,10 @@ public:
 			for (int j = 1; j < 67; j++) screen[i][j] = ' ';
 		}
 	}//clear everytthing within the menu
-	void newMission(int numMission) {
+	void newMission(int numMission, bool needUpdate = true) {
 		clear();
+		if (needUpdate&&numMission == 7)
+			mathExe();
 		edit(2, 33 - strlen(missions[numMission]) / 2, missions[numMission]);
 		print(WHITE);
 	}//print the new mission in the menu
@@ -103,6 +105,16 @@ public:
 	void displayNumMenu(bool num);
 	void updateScoreBoard(int score1, int score2);
 	//self explanatory function names
+	char* castingOP(int op);
+	char* makeString(char* s1, char* s2, char* s3, char* s4, char* s5, char* s6);
+	void mathExe();//7 - 
+	char* getM7()
+	{
+		return missions[7];
+	}
+	void Menu::PickNums(int &place, int nums[], char* operator1, char * operator2);
+	bool CheckValidation(int nums[], int place, char* operator1, char* operator2);
+
 };
 
 #endif
