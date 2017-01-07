@@ -79,11 +79,11 @@ void TheSnakesGame::init()
 		board[i][COLS] = '\0';
 	}
 	nextMission();
-	for (unsigned int i = 0; i < bullets.size(); i++)
+	/*for (unsigned int i = 0; i < bullets.size(); i++)
 	{
 		bullets[i].clearBul();
 	}
-	bullets.clear();
+	bullets.clear();*/
 	s[0]->setGame(this);
 	s[1]->setGame(this);
 	s[0]->setArrowKeys("wxad");

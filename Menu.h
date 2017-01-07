@@ -56,7 +56,7 @@ class Menu  {
 	};
 	char *Num60Menu[2] = {
 		"There is no correct number ,good try!!!",
-		"All the yellow numbers were possible answers,try better next time",
+		"The yellow numbers were possible answers,try better",
 	};
 	char *victoryMenu[2] = {
 		"congratulation:) snake 1 won the game!!!",

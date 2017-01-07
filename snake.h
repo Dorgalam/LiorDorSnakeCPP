@@ -20,7 +20,7 @@ class Snake {
 	char arrowKeys[4];
 	Color color;
 	Mission m;
-	TheSnakesGame* theGame;
+	TheSnakesGame* theGame = nullptr;
 	char symbol;
 	char ShootKey;
 	bool stuck;

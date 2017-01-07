@@ -11,7 +11,8 @@ void Snake:: clearSnake()
 	
 }
 void Snake::updateBullets() {
-	if (theGame == nullptr) return;
+	if (theGame == nullptr) 
+		return;
 	theGame->updateBullets(symbol, numBul);
 }
 bool Snake::goodNum(int numMission,int num)
