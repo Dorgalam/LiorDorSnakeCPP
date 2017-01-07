@@ -253,5 +253,4 @@ void Menu::mathExe()//new mission - math exerecise complex of 3 random numbers a
 	}
 	missions[7] = new char[25];
 	strcpy(missions[7], str);
-	delete(str);
 }
