@@ -157,7 +157,7 @@ char* Menu::castingOP(int op)
 }
 char* Menu::makeString(char* s1, char* s2, char* s3, char* s4, char* s5, char* s6)
 {
-	char str[25];
+	char *str = new char[25];
 	strcpy(str, s1);
 	strcat(str, " ");
 	strcat(str, s2);
@@ -253,4 +253,5 @@ void Menu::mathExe()//new mission - math exerecise complex of 3 random numbers a
 	}
 	missions[7] = new char[25];
 	strcpy(missions[7], str);
+	delete(str);
 }
