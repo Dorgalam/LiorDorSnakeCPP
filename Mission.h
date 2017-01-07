@@ -26,16 +26,16 @@ public:
 	bool div7rem3(int n) { return n % 7 == 3; }//4
 	bool is169(int n) { return n == 169; }//5
 	bool isPalindrom(int n);//6 - palindrom number is 131 in example
-	void getNums(char *str, int nums[]);
-	void getOP(char *str, char ops[]);
+	void getNums(char *str, int nums[]);//get the numbers from the string
+	void getOP(char *str, char ops[]);//get the operators from the string
 	bool mathExe(int n);//7
-	bool helperMath(int nums[], char op1, char op2);
+	bool helperMath(int nums[], char op1, char op2);//calculate the solution of the mission 
 	void set7(char * str)
-	{
+	{//set mission number 7 string 
 		mission7 = new char[25];
 		strcpy(mission7, str);
 	}
-	void free7()
+	void free7()//free the string of the mission number 7 after finish the mission
 	{
 		free(mission7);
 	}

@@ -2,7 +2,7 @@
 #define _MENU_H
 #include "io_utils.h"
 #include "Mission.h"
-
+#include <string>
 using namespace std;
 
 enum { INSTRUCTIONS = '1', START='2', EXIT_START = '9' };
@@ -19,11 +19,12 @@ class Menu  {
 		//		  10        20        30        40        50        60        70   
 		//01234567890123456789012345678901234567890123456789012345678901234567890123456789 
 		"--------------------------------------------------------------------------------",// 0
-		"|                                                                  GAME SCORE: |",// 1
-		"|                                                                  SNAKE 1:    |",// 2
-		"|                                                                  SNAKE 2:    |",// 3
+		"|                                                                  SCORE | MAG |",// 1
+		"|                                                          SNAKE 1:      |  5  |",// 2
+		"|                                                          SNAKE 2:      |  5  |",// 3
 		"--------------------------------------------------------------------------------",// 4
 	};
+	
 	char *startMenu[3] = {
 		"(1) Instructions",
 		"(2) Start",
@@ -38,16 +39,16 @@ class Menu  {
 	    "(6) Restart Game",
 	}; //menu items
 	char *missions[8] = {
-		"Prime number",
-		"Number divisible by 4",
-		"Product of 7",
-		"Squared Integer",
-		"Divided by 7 remainder is 3",
-		"Look for the number 169",
-		"Find a Palindrome number",
+		"Look for: Prime number",
+		"Look for: Number divisible by 4",
+		"Look for: Product of 7",
+		"Look for: Squared Integer",
+		"Look for: Divided by 7 remainder is 3",
+		"Look for the number 13^2",
+		"Look for: Palindrome number",
 	}; // string missions
 	char *instructions = {
-		"Two snakes battling over mathematical superiority.\nControl the greed $ snake with 'wxad', the more calculated # snake with 'ijkl'.\nComplete missions to score points and eventually win.\nBeware, wrong solutions will result in the other players point.\nThe first to get to 12 points win the Game(start from 3)!\nGood luck and may Sir Isaac Newton be with you!"
+		"Two snakes battling over mathematical superiority.\nControl the greed $ snake with 'wxad' shoot by 'z',\nthe more calculated # snake with 'ijkl' shoot by 'n'.\nThe snake have each mission 5 bullets,\nIf one of the bullets hit the other snake, he gets another bullet,\nBullets hitting the numbers conceal them, \nComplete missions to score points and eventually win.\nBeware, wrong solutions will result in the other players point.\nThe first to get to 12 points win the Game(start from 3)!\nGood luck and may Sir Isaac Newton be with you!"
 	}; //humoristic instructions
 	char *snakeWonMission[2] = {
 		"Snake 1 won this round",
@@ -83,13 +84,13 @@ public:
 
 	void clear() {
 		for (int i = 1; i < 4; i++) {
-			for (int j = 1; j < 67; j++) screen[i][j] = ' ';
+			for (int j = 1; j < 59; j++) screen[i][j] = ' ';
 		}
 	}//clear everytthing within the menu
 	void newMission(int numMission, bool needUpdate = true) {
 		clear();
 		if (needUpdate&&numMission == 7)
-			mathExe();
+			mathExe();//make the mission-every time another mission
 		edit(2, 33 - strlen(missions[numMission]) / 2, missions[numMission]);
 		print(WHITE);
 	}//print the new mission in the menu
@@ -99,50 +100,22 @@ public:
 		cout << instructions;
 		displayStartMenu();
 	}
-	int displayIngameMenu();
-	void displayWinningMenu(int num);
-	void displayVictoryMenu(int num);
-	void displayNumMenu(bool num);
-	void updateScoreBoard(int score1, int score2);
+	int displayIngameMenu();//print the menu options
+	void displayWinningMenu(int num);//display the snake that won the mission
+	void displayVictoryMenu(int num);//display the snake that won the game
+	void displayNumMenu(bool num);//display all the numbers that are correct answers mark
+	void updateScoreBoard(int score1, int score2);//manage the score board - same as the snakes length
 	//self explanatory function names
-	char* castingOP(int op);
-	char* makeString(char* s1, char* s2, char* s3, char* s4, char* s5, char* s6);
+	char* castingOP(int op);// 0='+' , 1='-' ,2='*' , 3='/'
+	char* makeString(char* s1, char* s2, char* s3, char* s4, char* s5, char* s6);//make the mission string  that need to display on the screen
 	void mathExe();//7 - 
 	char* getM7()
 	{
 		return missions[7];
 	}
-	void Menu::PickNums(int &place, int nums[], char* operator1, char * operator2);
-	bool CheckValidation(int nums[], int place, char* operator1, char* operator2);
+	void PickNums(int &place, int nums[], char* operator1, char * operator2);//get random numbers and random operators
+	bool CheckValidation(int nums[], int place, char* operator1, char* operator2);//check if there is a correct answer in the range(1-169) to the random mission
 
 };
 
 #endif
-
-
-
-
-
-
-
-
-
-
-/*char numbers[][50] =
-{
-" 333333333333333   ", " 222222222222222    ", " 1111111    ",
-"3:::::::::::::::33 ", "2:::::::::::::::22  ", "1::::::1    ",
-"3::::::33333::::::3", "2::::::222222:::::2 ", "1:::::::1   ",
-"3333333     3:::::3", "2222222     2:::::2 ", "111:::::1   ",
-"            3:::::3", "            2:::::2 ", "   1::::1   ",
-"            3:::::3", "            2:::::2 ", "   1::::1   ",
-"    33333333:::::3 ", "         2222::::2  ", "   1::::1   ",
-"    3:::::::::::3  ", "    22222::::::22   ", "   1::::l   ",
-"    33333333:::::3 ", "  22::::::::222     ", "   1::::l   ",
-"            3:::::3", " 2:::::22222        ", "   1::::l   ",
-"            3:::::3", "2:::::2             ", "   1::::l   ",
-"            3:::::3", "2:::::2             ", "   1::::l   ",
-"3333333     3:::::3", "2:::::2       222222", "111::::::111",
-"3::::::33333::::::3", "2::::::2222222:::::2", "1::::::::::1",
-"3:::::::::::::::33 ", "2::::::::::::::::::2", "1::::::::::1",
-" 333333333333333   ", "22222222222222222222", "111111111111" };*/

@@ -21,7 +21,7 @@ public:
 	
 	int generateNumber(); //creates a random as required
 	numCoord randNumbers::findSpot(); //find a suitable spot in the board
-	int getSize() { return numVec.size(); } //just to pipe value forward
+	int getSize() { if (numVec.empty())return 0; return numVec.size(); } //just to pipe value forward
 	bool checkSpot(const int& x, const int& y, const int& len); //checks if a specific spot on the board is suitable
 	void addNumber();//add the generated number to the vector
 	int whatNum(const Point &p); //given a point, returns the number that sits inside
@@ -29,6 +29,7 @@ public:
 	bool goodNum(int numMission, int num);//checks if the number fits the mission requirements
 	bool showNumbers(int num);//shows the numbers that fit the mission
 	void removeAll(); //removes all numbers from vec/board etc
+	void DeleteNum(const Point& p);
 };
 
 

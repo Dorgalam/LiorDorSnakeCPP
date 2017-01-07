@@ -1,6 +1,6 @@
 #include "randNumbers.h"
 #include "TheSnakesGame.h"
-#include <string>   
+//#include <string>   
 
 enum { OFFSET = 5 };
 bool randNumbers::goodNum(int numMission, int num)
@@ -76,7 +76,7 @@ void randNumbers::removeAll() {
 			this->game->updateBoard(x, y + j, ' ');
 		}
 	}
-	numVec.erase(numVec.begin(), numVec.begin() + size / 2);
+	numVec.erase(numVec.begin(), numVec.begin() + size);
 }
 void randNumbers::removeHalf() {
 	int size = numVec.size();
@@ -134,6 +134,22 @@ int randNumbers::whatNum(const Point& p) {
 		}
 	}
 	return res;
+}
+void randNumbers::DeleteNum(const Point& p) {
+	int res = -1, x, y;
+	Point left1(p.getX(), (p.getY() - 1) % 80), left2(p.getX(), (p.getY() - 2) % 80);
+	for (unsigned int i = 0; i < numVec.size(); i++) {
+		if (numVec[i].p.isSame(p) || numVec[i].p.isSame(left1) || numVec[i].p.isSame(left2)) {
+			y = numVec[i].p.getY();
+			x = numVec[i].p.getX();
+			gotoxy(y, x + OFFSET);
+			for (int j = 0; j < (int)(log10(numVec[i].num) + 1); j++) {
+				cout << ' ';
+				this->game->updateBoard(x, y + j, ' ');
+			}
+			numVec.erase(numVec.begin() + i);
+		}
+	}
 }
 numCoord randNumbers::findSpot() {
 	numCoord res;

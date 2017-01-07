@@ -1,6 +1,5 @@
 #include <windows.h>
 #include <iostream>
-//#include "Menu.h"
 using namespace std;
 #include <math.h>
 #include <vector>
@@ -9,7 +8,13 @@ using namespace std;
 #include "randNumbers.h"
 #include <mmsystem.h>
 #pragma comment(lib, "winmm.lib")
-
+#include <stdio.h>
+/*Lior Rokach & Dor Galam - snakes Project
+04.01.2017
+This program is a game where two snakes battling over math exercise - each mission the winner gets a point,the game ends when one of the snakes has 12 points.
+The snake has each mission 5 bullets,If bullet hit the other snake- He will be suspended from the game for a limited time, and the snake who shot the bullet gets a bullet,
+Bullets hitting the numbers conceal them,
+*/
 
 
 

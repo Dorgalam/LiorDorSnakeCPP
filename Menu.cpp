@@ -1,17 +1,18 @@
 #include "Menu.h"
 #include "TheSnakesGame.h"
-#include <string>
+#include "Countdown.h"
+//#include <string>
 void Menu::updateScoreBoard(int score1, int score2)
 {
 	char s1[3], s2[3];
-	s1[0] = score1 / 10 + '0';
-	s1[1] = score1 % 10 + '0';
-	s2[0] = score2 / 10 + '0'; //go to all correct spots and update locations
-	s2[1] = score2 % 10 + '0';
+	s1[0] = (score1-3) / 10 + '0' ;
+	s1[1] = (score1-3) % 10 + '0';
+	s2[0] = (score2-3) / 10 + '0'; //go to all correct spots and update locations
+	s2[1] = (score2-3) % 10 + '0';
 	s1[2] = '\0';
 	s2[2] = '\0';
-	edit(2, 76, s1);
-	edit(3, 76, s2);
+	edit(2, 69, s1);
+	edit(3, 69, s2);
 	print(WHITE);
 } 
 void Menu::displayStartMenu() {
@@ -31,6 +32,7 @@ void Menu::displayStartMenu() {
 	{
 		switch (key) { //give correct output for all known results, otherwise look for another key
 		case START:
+			Countdown().start();
 			game->init();
 			goodChoice = true;
 			break;
@@ -63,8 +65,9 @@ void Menu::displayVictoryMenu(int num)
 {
 	clear();
 	edit(1, 2, victoryMenu[num]);
-	print(GREEN);
-	PlaySound(TEXT("applause3.wav"), NULL, SND_FILENAME);
+	print(LIGHTGREEN);
+	if (ifstream("applause3.wav"))
+		PlaySound(TEXT("applause3.wav"), NULL, SND_FILENAME);
 	Sleep(2000);
 }
 void Menu::displayNumMenu(bool found)
@@ -81,6 +84,7 @@ void Menu::displayNumMenu(bool found)
 }
 int Menu::displayIngameMenu() {
 	char key;
+	bool goodChoice = false;
 	clear();
 	for (int i = 0; i < 6; i++) {
 		edit((i % 3) + 1, 2 + 20 * (i / 3), inGameMenu[i]);
@@ -91,27 +95,41 @@ int Menu::displayIngameMenu() {
 
 	}
 	key = _getch();
+	while (!goodChoice)
+	{
+		switch (key) {
+		case EXIT_MID:
+			exit(0);
+			goodChoice = true;
+			break;
+		case MAIN_MENU:
+			game->displayStartMenu();
+			goodChoice = true;
+			break;
+		case RESUME:
+			newMission(game->getCurrMission(), false);
+			goodChoice = true;
+			break;
+		case RESTART_MISSION:
+			newMission(game->getCurrMission(), false);
+			goodChoice = true;
+			break;
+		case NEW_MISSION:
+			game->startMission();
+			goodChoice = true;
+			break;
+		case RESTART_GAME:
+			game->init();
+			goodChoice = true;
+			break;
+		default:
+			while (!_kbhit())
+			{
 
-	switch (key) {
-	case EXIT_MID:
-		exit(0);
-		break;
-	case MAIN_MENU:
-		game->displayStartMenu();
-		break;
-	case RESUME:
-		newMission(game->getCurrMission(), false);
-		break;
-	case RESTART_MISSION:
-		newMission(game->getCurrMission(), false);
-		break;
-	case NEW_MISSION:
-		game->startMission();
-		break;
-	case RESTART_GAME:
-		game->init();
-
-		break;
+			}
+			key = _getch();
+			break;
+		}
 	}
 	return (int)(key-'0');
 
@@ -187,12 +205,23 @@ void Menu::mathExe()//new mission - math exerecise complex of 3 random numbers a
 	char *operator1 = new char[2], *operator2 = new char[2], *n1 = new char[4], *n2 = new char[4], *n3 = new char[4];
 	bool Good = false;
 	char str[25];
+	int count = 0;
 	int nums[4], i, place;
 	while (!Good)
 	{
+		count++;
 		PickNums(place, nums, operator1, operator2);
 		if (CheckValidation(nums, place, operator1, operator2))
 			Good = true;
+		if (count == 201&& !Good)
+		{
+			nums[0] = 100;
+			nums[1] = 50;
+			nums[2] = 22;
+			place = 4;
+			operator1 = "/";
+			operator2 = "+";
+		}
 	}
 	i = 0;
 	if (i == place)
