@@ -10,6 +10,7 @@ Additional features:
   - Firing a bullet, getting hit by one, collecting a number and many more actions play an appropriate sound
   - Cool countdown before the game starts
   - Added another mission called isPalnidrome 
+  - Screen is resized at the start to fit both the menu and the game perfectly
 
 
 
