@@ -100,12 +100,61 @@ void TheSnakesGame::printBoard() {
 		}
 	}
 }
+void TheSnakesGame::handleMove(int snakeNum,int opsnakeNum ,int missionEnd,int &counter)
+{
+	moveBul();
+	if (!s[snakeNum]->isSuspend())
+	{
+		missionEnd = s[snakeNum]->move(s[opsnakeNum]->getSymbol(), currMission);
+		if (missionEnd == 2)
+		{//ate a wrong number-erase the snakes from the board and screen+remove half of the numbers
+			s[opsnakeNum]->snakeGrow();
+			theMenu.displayWinningMenu(opsnakeNum);
+			gameNumbers.showNumbers(currMission);
+			finishMission();
+		}
+		else if (missionEnd == 3)
+			s[opsnakeNum]->addBullet();
+		else if (missionEnd)
+		{//ate a correct number
+			theMenu.displayWinningMenu(snakeNum);
+			finishMission();
+		}
+	}
+	else
+		counter++;
+}
+void TheSnakesGame::userSelectionMenu(char &key)
+{
+	int clickedEscape = theMenu.displayIngameMenu();
+	if (clickedEscape != 1) {
+		key = rand() % 4;
+		if (clickedEscape != 3 && clickedEscape != 6 && clickedEscape != 2)
+		{
+			s[0]->clearSnake();
+			s[1]->clearSnake();
+			setSnakes();
+			if (clickedEscape == 4)
+				gameNumbers.removeAll();
+		}
+		else if (clickedEscape == 6)
+		{
+			s[0]->clearBody();
+			s[1]->clearBody();
+			s[0]->newSnake(9, 10, RIGHT);
+			s[1]->newSnake(9, 70, LEFT);
+			gameNumbers.removeAll();
+			theMenu.updateScoreBoard(s[0]->getSize(), s[1]->getSize());
+
+		}
+	}
+	else
+		key = ESC;
+}
 void TheSnakesGame::run()
 {
-	int count = 1,susCount1 = 1,susCount2 = 1;
+	int count = 1,susCount1 = 1,susCount2 = 1,dir,missionEnd;
 	char key = 0;
-	int dir;
-	int missionEnd;
 	theMenu.print(WHITE);//print the instruction
 	theMenu.updateScoreBoard(s[0]->getSize(), s[1]->getSize());
 	do
@@ -146,48 +195,8 @@ void TheSnakesGame::run()
 			else if ((dir = s[1]->getDirection(key)) != -1)
 				s[1]->setDirection(dir);
 		}
-		moveBul();
-		if (!s[0]->isSuspend())
-		{
-			missionEnd = s[0]->move(s[1]->getSymbol(), currMission);
-			if (missionEnd == 2)
-			{//ate a wrong number-erase the snakes from the board and screen+remove half of the numbers
-				s[1]->snakeGrow();
-				theMenu.displayWinningMenu(1);
-				gameNumbers.showNumbers(currMission);
-				finishMission();
-			}
-			else if (missionEnd == 3)
-				s[1]->addBullet();
-			else if (missionEnd)
-			{//ate a correct number
-				theMenu.displayWinningMenu(0);
-				finishMission();
-			}
-		}
-		else
-			susCount1++;
-		moveBul();
-		if (!s[1]->isSuspend())
-		{
-			missionEnd = s[1]->move(s[0]->getSymbol(), currMission);
-			if (missionEnd == 2)
-			{//ate a wrong number
-				s[0]->snakeGrow();
-				theMenu.displayWinningMenu(0);
-				gameNumbers.showNumbers(currMission);
-				finishMission();
-			}
-			else if (missionEnd == 3)
-				s[0]->addBullet();
-			else if (missionEnd)
-			{
-				theMenu.displayWinningMenu(1);
-				finishMission();
-			}
-		}
-		else
-			susCount2++;
+		handleMove(0, 1, missionEnd, susCount1);//moving the snake and handle avery possible case(eating number,coliide with bullet and so on)
+		handleMove(1, 0, missionEnd, susCount2);
 		if (gameNumbers.getSize() == 60)
 		{
 			bool wasCorrectAnswer = gameNumbers.showNumbers(currMission);//show the numbers that is correct
@@ -198,28 +207,7 @@ void TheSnakesGame::run()
 		Sleep(200);
 		if (key == ESC) {
 			count = 1;
-			int clickedEscape = theMenu.displayIngameMenu();
-			if (clickedEscape != 1) {
-				key = rand() % 4;
-				if (clickedEscape != 3 && clickedEscape != 6 && clickedEscape != 2)
-				{
-					s[0]->clearSnake();
-					s[1]->clearSnake();
-					setSnakes();
-					if (clickedEscape == 4)
-						gameNumbers.removeAll();
-				}
-				else if (clickedEscape == 6)
-				{
-					s[0]->clearBody();
-					s[1]->clearBody();
-					s[0]->newSnake(9, 10, RIGHT);
-					s[1]->newSnake(9, 70, LEFT);
-					gameNumbers.removeAll();
-					theMenu.updateScoreBoard(s[0]->getSize(), s[1]->getSize());
-
-				}
-			}
+			userSelectionMenu(key);
 		}
 		if (s[0]->getSize() == 15)
 		{//earned 12 points

@@ -79,7 +79,9 @@ public:
 		return board[x][y];
 	}
 	void finishMission();//handle the end of the mission - clear the numbers ,the board and adjust the snake and then uses nextmission function 
-	void run();
+	void handleMove(int snakeNum,int opsnakeNum,int missionend, int &counter);//handle the move of the snakes
+	void run();//handle the run of the game including mission snakes and numbers
+	void userSelectionMenu(char &key);//handle the user selection after he chose esc to see the menu-deal with resume,restart game and etc
 	void nextMission();//get the next mission(random mission) and start the mission
 	void flashNum(numCoord numVec, Color color);//this function flash all the correct answers
 	Mission returnM()
