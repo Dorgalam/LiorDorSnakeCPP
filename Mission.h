@@ -17,7 +17,7 @@ class Mission {
 	char *mission7;
 public:
 	void startMission();
-
+	int getMission() { return currMission; }
 	//given the answer of one of the players, return true iff the number fits mission requirements
 	bool isPrime(int n);//0
 	bool div4(int n) { return n % 4 == 0; }//1

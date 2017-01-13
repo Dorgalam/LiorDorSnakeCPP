@@ -20,12 +20,7 @@ class Bullet {
 	TheSnakesGame *G;
 public:
 	Bullet(TheSnakesGame* _theGame,Snake *father, Point start, int dir = 4, Color c = WHITE) : G (_theGame),p(start), direction(dir), color(c), snakef(father) {};
-	void setBullet(Point start, int dir = 4, Color c = WHITE)
-	{
-		p = start;
-		direction = dir;
-		color = c;
-	}
+	void setBullet(Point start, int dir = 4, Color c = WHITE);
 	void StartMove();//move the point to the next place and update on the board
 	int getDir() { return direction; }
 	Point getBullet() { return p; }

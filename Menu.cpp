@@ -2,6 +2,32 @@
 #include "TheSnakesGame.h"
 #include "Countdown.h"
 //#include <string>
+void Menu::print(Color c) {
+	int i = 0;
+	for (char *item : screen) {
+		gotoxy(0, i++);
+		//system("color f");
+		setTextColor(c);
+		cout << item;
+	} //constructor, go over all items and print
+}
+void Menu::edit(int x, int y, char *str) {
+	for (size_t i = 0; i < strlen(str); i++) {
+		screen[x][y + i] = str[i];
+	}
+} 
+void Menu::clear() {
+	for (int i = 1; i < 4; i++) {
+		for (int j = 1; j < 59; j++) screen[i][j] = ' ';
+	}
+}
+void Menu::newMission(int numMission, bool needUpdate) {
+	clear();
+	if (needUpdate&&numMission == 7)
+		mathExe();//make the mission-every time another mission
+	edit(2, 33 - strlen(missions[numMission]) / 2, missions[numMission]);
+	print(WHITE);
+}
 void Menu::updateScoreBoard(int score1, int score2)
 {
 	char s1[3], s2[3];

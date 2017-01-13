@@ -12,7 +12,6 @@ class TheSnakesGame;
 
 class Snake {
 	enum { SIZE = 5 };
-	enum { UP = 0, DOWN, LEFT, RIGHT };
 
 	//int size;
 	vector<Point> body;
@@ -53,12 +52,7 @@ public:
 		theGame = _theGame;
 	}
 	//void setPosition(int y, int x);
-	void setArrowKeys(const char* keys) {
-		arrowKeys[0] = keys[0];
-		arrowKeys[1] = keys[1];
-		arrowKeys[2] = keys[2];
-		arrowKeys[3] = keys[3];
-	}
+	void setArrowKeys(const char* keys);
 	void setColor(Color c) {
 		color = c;
 	}
@@ -66,32 +60,17 @@ public:
 	int move(char opSymbol, int numOfMission);//handle the movement of the snake and checking that he's move to a free and legit place 
 	int getDirection(char key);//handle and adjust char direction input to int direction 
 	int getDirection() {return direction;}//get the current direction of the snake
-	void setDirection(int dir) {
-		direction = dir;
-	}
+	void setDirection(int dir) {direction = dir; }
 	int getSize() { return body.size(); }
 	bool goodNum(int numMission, int num);//checking if the number meets the mission requirements
 	void snakeGrow(){body.push_back(body[body.size() - 1]);}
-	void backToStart(int x, int y, int dir = 4)
-	{
-		for (unsigned int i = 0; i < body.size(); i++)
-			body[i].set(x, y);
-		direction = dir;
-	}
+	void backToStart(int x, int y, int dir = 4);
 	void clearSnake();//clear the snake from the board
-	bool checkNotSnake(Snake *s, Point p) {//check that the snake's body is not in this point
-		for (unsigned int i = 0; i < s->body.size(); i++)
-		{
-			if (s->body[i].isSame(p))
-				return false;
-		}
-		return true;
-	}
+	bool checkNotSnake(Snake *s, Point p);//check that the snake's body is not in this point
 	void findFreeSpot(Snake *s);//this function find a free spot for the snake on the board
 	void clearBody() {//delete the body of the snake
 		for (unsigned int i = 0; i < body.size(); i++)
 			body.pop_back();
-		//size = 0;
 	}
 	void getGameM(Mission gameM) { m = gameM; }
 	char getShoot() { return ShootKey; }
@@ -103,16 +82,7 @@ public:
 	bool isSuspend() { return suspended; }
 	Point getbodyPlace() { return Point(body[0].getX(), body[0].getY()); }
 	void addBullet() { numBul++; updateBullets(); }
-	bool deleteBullet()
-	{
-		if (numBul > 0)
-		{
-			numBul--;
-			updateBullets();
-			return true;
-		}
-		return false;
-	}
+	bool deleteBullet();
 	void updateBullets();
 };
 

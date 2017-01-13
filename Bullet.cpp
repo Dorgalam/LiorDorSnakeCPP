@@ -1,6 +1,11 @@
 #include "Bullet.h"
 #include "TheSnakesGame.h"
-
+void Bullet::setBullet(Point start, int dir , Color c)
+{
+	p = start;
+	direction = dir;
+	color = c;
+}
 void Bullet::moveB()
 {
 	setTextColor(color);

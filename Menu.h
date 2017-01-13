@@ -47,8 +47,11 @@ class Menu  {
 		"Look for the number 13^2",
 		"Look for: Palindrome number",
 	}; // string missions
+	char *missionsBank[5] = {
+		
+	}; // string missions
 	char *instructions = {
-		"Two snakes battling over mathematical superiority.\nControl the greed $ snake with 'wxad' shoot by 'z',\nthe more calculated # snake with 'ijkl' shoot by 'n'.\nThe snake have each mission 5 bullets,\nIf one of the bullets hit the other snake, he gets another bullet,\nBullets hitting the numbers conceal them, \nComplete missions to score points and eventually win.\nBeware, wrong solutions will result in the other players point.\nThe first to get to 12 points win the Game(start from 3)!\nGood luck and may Sir Isaac Newton be with you!"
+		"Two snakes battling over mathematical superiority.\nControl the greed $ snake with 'wxad' shoot by 'z',\nthe more calculated # snake with 'ijkl' shoot by 'n'.\nThe snake have each mission 5 bullets,\nIf one of the bullets hit the other snake, he gets another bullet,\nBullets hitting the numbers conceal them, \nComplete missions to score points and eventually win.\nBeware, wrong solutions will result in the other players point.\nThe first to get to 12 points win the Game!\nGood luck and may Sir Isaac Newton be with you!"
 	}; //humoristic instructions
 	char *snakeWonMission[2] = {
 		"Snake 1 won this round",
@@ -64,36 +67,14 @@ class Menu  {
 	};
 public:
 	Menu(TheSnakesGame *_game) : game(_game) {}
-	void print(Color c) {
-		int i = 0;
-		for (char *item : screen) {
-			gotoxy(0, i++);
-			//system("color f");
-			setTextColor(c);
-			cout << item;
-		} //constructor, go over all items and print
-	}
+	void print(Color c);
 	void setColor(Color c) {
 		txtColor = c;
 	}
-	void edit(int x, int y, char *str) {
-		for (size_t i = 0; i < strlen(str); i++) {
-			screen[x][y + i ] = str[i];
-		}
-	} //edit the menu
+	void edit(int x, int y, char *str);//edit the menu
 
-	void clear() {
-		for (int i = 1; i < 4; i++) {
-			for (int j = 1; j < 59; j++) screen[i][j] = ' ';
-		}
-	}//clear everytthing within the menu
-	void newMission(int numMission, bool needUpdate = true) {
-		clear();
-		if (needUpdate&&numMission == 7)
-			mathExe();//make the mission-every time another mission
-		edit(2, 33 - strlen(missions[numMission]) / 2, missions[numMission]);
-		print(WHITE);
-	}//print the new mission in the menu
+	void clear();//clear everytthing within the menu
+	void newMission(int numMission, bool needUpdate = true);//print the new mission in the menu
 	void displayStartMenu(); 
 	void displayInstructions() {
 		gotoxy(0, 5);

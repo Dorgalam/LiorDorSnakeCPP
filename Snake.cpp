@@ -1,5 +1,17 @@
 #include "snake.h"
 #include "TheSnakesGame.h"
+void Snake::setArrowKeys(const char* keys) {
+	arrowKeys[0] = keys[0];
+	arrowKeys[1] = keys[1];
+	arrowKeys[2] = keys[2];
+	arrowKeys[3] = keys[3];
+}
+void Snake::backToStart(int x, int y, int dir)
+{
+	for (unsigned int i = 0; i < body.size(); i++)
+		body[i].set(x, y);
+	direction = dir;
+}
 void Snake:: clearSnake()
 {
 	for (unsigned int i = 0; i < body.size(); i++) {
@@ -9,6 +21,24 @@ void Snake:: clearSnake()
 	if(direction==4) direction = 3;
 	//direction = 4;
 	
+}
+bool Snake::checkNotSnake(Snake *s, Point p) {//check that the snake's body is not in this point
+	for (unsigned int i = 0; i < s->body.size(); i++)
+	{
+		if (s->body[i].isSame(p))
+			return false;
+	}
+	return true;
+}
+bool Snake::deleteBullet()
+{
+	if (numBul > 0)
+	{
+		numBul--;
+		updateBullets();
+		return true;
+	}
+	return false;
 }
 void Snake::updateBullets() {
 	if (theGame == nullptr) 
@@ -47,10 +77,11 @@ bool Snake::goodNum(int numMission,int num)
 		break;
 	}
 }
-int Snake::move(char opSymbol,int numOfMission)
+int Snake::move(char opSymbol, int numOfMission)
 {
 	Point nextPoint = body[0].next(direction);
 	char nextSpot = theGame->boardChar(nextPoint);
+	int res=0;
 	if (nextSpot >= '0' && nextSpot <= '9') {
 		int numCollected = theGame->getNumFromArray(nextPoint);
 		if (goodNum(numOfMission, numCollected)) {
@@ -65,22 +96,24 @@ int Snake::move(char opSymbol,int numOfMission)
 			PlaySound(TEXT("wrong.wav"), NULL, SND_FILENAME);
 		return 2;
 	}
-	if (!theGame->isWall(nextPoint, symbol))//next direction free
+	else if (theGame->isWall(nextPoint, ' '))//next direction free
 		stuck = false;
-	if ((theGame->isWall(nextPoint, symbol) || theGame->isWall(nextPoint, opSymbol)) && direction != 4)
+	else if ((theGame->isWall(nextPoint, symbol) || theGame->isWall(nextPoint, opSymbol)) && direction != 4)
 	{//check if the next direction is already taken - stop the snake movement
 		direction = 4;
 		stuck = true;
 		if (ifstream("punch.wav"))
 			PlaySound(TEXT("punch.wav"), NULL, SND_FILENAME);
 	}
-	if (theGame->isWall(nextPoint, '*'))
+	else if (theGame->isWall(nextPoint, '*'))
 	{
-		bool res = theGame->bulletcollidesnake(this);//check which bullet it is and take action as needed
-		if(res)//true only if the bullet was of the other snake
-		return 3;
+		bool opbul = theGame->bulletcollidesnake(this);//check which bullet it is and take action as needed
+		if(opbul)//true only if the bullet was of the other snake
+			return 3;
 	}
-	if (!stuck&&!suspended)
+	res = theGame->Creaturecollidesnake(this);
+
+	if (!stuck&&!suspended&&res==0)
 	{//move the snake on the board
 		body[body.size() - 1].draw(' ');
 		theGame->updateBoard(body[body.size() - 1].getX(), body[body.size() - 1].getY(), ' ');
@@ -91,7 +124,7 @@ int Snake::move(char opSymbol,int numOfMission)
 		setTextColor(color);
 		body[0].draw(symbol);
 	}
-	return 0;
+	return res;
 }
 int Snake::getDirection(char key)
 {
@@ -122,7 +155,7 @@ void Snake::findFreeSpot(Snake *s)
 		randx = rand() % 24;
 		randy = rand() % 80;
 		p.set(randx, randy);
-	} while (!checkNotSnake(s,p));
+	} while (!checkNotSnake(s,p)&&!theGame->creaturePlace(p));
 	if (theGame->getNumFromArray(p) != -1)
 		theGame->DeletNumFromArray(p);
 	backToStart(p.getX(), p.getY(), direction);

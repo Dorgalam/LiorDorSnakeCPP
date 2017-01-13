@@ -30,6 +30,8 @@ public:
 	bool showNumbers(int num);//shows the numbers that fit the mission
 	void removeAll(); //removes all numbers from vec/board etc
 	void DeleteNum(const Point& p);
+	int countSteps(const Point& p1, const Point& p2);
+	int findCloseNum(const Point& p);
 };
 
 
