@@ -1,5 +1,6 @@
 #include "TheSnakesGame.h"
 #include "Bullet.h"
+#include "Creature.h"
 void TheSnakesGame::finishMission()
 {
 	s[0]->clearSnake();
@@ -51,6 +52,8 @@ void TheSnakesGame::flashNum(numCoord numVec, Color color)
 void TheSnakesGame::nextMission()
 {
 	startMission();
+	for (int i = 0; i < SIZECR; i++)
+		cr[i]->setSuspend(false);
 	setSnakes();
  }
 void TheSnakesGame::setBoard(const char* boardToCopy[ROWS])
@@ -197,6 +200,9 @@ void TheSnakesGame::run()
 		}
 		handleMove(0, 1, missionEnd, susCount1);//moving the snake and handle avery possible case(eating number,coliide with bullet and so on)
 		handleMove(1, 0, missionEnd, susCount2);
+		for (int i = 0; i < SIZECR; i++)
+			cr[i]->move();
+		
 		if (gameNumbers.getSize() == 60)
 		{
 			bool wasCorrectAnswer = gameNumbers.showNumbers(currMission);//show the numbers that is correct
@@ -266,6 +272,12 @@ else if (nextSpot == '*')
 		}
 	}
 }
+else if (nextSpot != ' ')
+{
+	b.clearBul();
+	deleteShot(index);//delete shot
+	//deal with the object - can do switch case
+}
 else
 	return true;
 return false;
@@ -314,4 +326,70 @@ bool TheSnakesGame::bulletcollidesnake(Snake *s)
 		}
 	}
 	return enemybullet;
+}
+int TheSnakesGame::Creaturecollidesnake(Snake *s)
+{
+	Point nextPoint = s->getbodyPlace().next(s->getDirection());
+	for (unsigned int i = 0; i < SIZECR; i++)
+	{
+		if (nextPoint.isSame(cr[i]->p))
+		{
+			s->Setsuspend(true);
+			if (typeid(*cr[i]) == typeid(numberEater))//if you are number eater
+			{
+				s->clearSnake();
+				return 2;
+			}
+			else 
+			{
+				Creature *derived = dynamic_cast<Creature*>(cr[i]);
+				if (derived)
+				{
+					s->clearSnake();
+					return 3;
+				}
+			}
+		}
+	}
+	return 0;
+}
+bool TheSnakesGame::ObjectCollide(Point p, bool killBul, bool killSnake)
+{//this function handle object collide-and return if the object can do his next move (if free space or if he can kill the snake/bullet(whatever he ran into) and move on
+	if (isWall(p, s[0]->getSymbol()))
+	{
+		if (killSnake)
+		{
+			s[1]->snakeGrow();
+			theMenu.displayWinningMenu(1);
+			gameNumbers.showNumbers(currMission);
+			finishMission();
+		}
+		s[0]->clearSnake();
+		s[0]->Setsuspend(true);
+		return killSnake;
+	}
+	if (isWall(p, s[1]->getSymbol()))
+	{
+		if (killSnake)
+		{
+			s[0]->snakeGrow();
+			theMenu.displayWinningMenu(0);
+			gameNumbers.showNumbers(currMission);
+			finishMission();
+		}
+		s[1]->clearSnake();
+		s[1]->Setsuspend(true);
+		return killSnake;
+	}
+	if (isWall(p, '*'))
+	{
+		killShot(p, killBul);
+		return killBul;
+	}
+	if ('0' <= boardChar(p) <= '9')
+	{
+		gameNumbers.DeleteNum(p);
+	}
+	////need to add the other objects - decide to do nothing or to kill both
+	return true;
 }

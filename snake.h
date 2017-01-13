@@ -12,7 +12,6 @@ class TheSnakesGame;
 
 class Snake {
 	enum { SIZE = 5 };
-	enum { UP = 0, DOWN, LEFT, RIGHT };
 
 	//int size;
 	vector<Point> body;

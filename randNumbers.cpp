@@ -148,6 +148,7 @@ void randNumbers::DeleteNum(const Point& p) {
 				this->game->updateBoard(x, y + j, ' ');
 			}
 			numVec.erase(numVec.begin() + i);
+			return;
 		}
 	}
 }
@@ -184,5 +185,64 @@ bool randNumbers::checkSpot(const int& x, const int& y, const int& len) {
 	around[1] = game->boardChar( x, (y + len) % 80);
 	if ((around[0] != ' ' && around[0] != '\0') || (around[1] != ' ' && around[1] != '\0')) res = false;
 	return res;
+
+}
+int randNumbers::countSteps(const Point& p1, const Point& p2)
+{
+	int xdistance, ydistance;
+	xdistance = (int)min(((24 - max(p1.getX(),p2.getX()))+ min(p1.getX(), p2.getX())),fabs(p1.getX() - p2.getX()));
+	ydistance =(int)min(((80 - max(p1.getY(), p2.getY())) + min(p1.getY(), p2.getY())), fabs(p1.getY() - p2.getY()));
+	return xdistance + ydistance;
+}
+int randNumbers::findCloseNum(const Point& p)
+{
+	int minSteps = 1000;
+	Point res;
+	bool found=false;
+	for (int i = 0; i < numVec.size(); i++)
+	{
+		if (goodNum(game->getCurrMission(), numVec[i].num))
+		{
+			if (countSteps(p, numVec[i].p) < minSteps)
+			{
+				found = true;
+				minSteps = countSteps(p, numVec[i].p);
+				res = numVec[i].p;
+			}
+		}
+	}
+	if (!found)
+		return 4;
+	if (res.getY() < p.getY())
+	{
+		if ((80 - max(res.getY(), p.getY()) + min(res.getY(), p.getY())) >= fabs(res.getY() - p.getY()))
+			return LEFT;
+		else//Go through the wall 
+			return RIGHT;
+	}
+	else if (res.getY() > p.getY())
+	{
+		if ((80 - max(res.getY(), p.getY()) + min(res.getY(), p.getY())) >= fabs(res.getY() - p.getY()))
+			return RIGHT;
+		else
+			return LEFT;
+	}
+	else if (res.getX() < p.getX())
+	{
+		if ((24 - max(res.getX(), p.getX())) + min(res.getX(), p.getX()) >= fabs(res.getX() - p.getX()))
+			return UP;
+		else
+			return DOWN;
+	}
+	else if (res.getX() > p.getX())
+	{
+		if ((24 - max(res.getX(), p.getX())) + min(res.getX(), p.getX()) >= fabs(res.getX() - p.getX()))
+			return DOWN;
+		else
+			return UP;
+	}
+		
+	else
+		return 4;//DONT MOVE
 
 }

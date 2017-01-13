@@ -5,12 +5,17 @@
 #include "Menu.h"
 #include "randNumbers.h"
 #include "Bullet.h"
-
+//#include "creature.h"
+#include "LineFly.h"
+#include "numberEater.h"
+#include "ColFly.h"
 using namespace std;
 
-enum { ROWS = 24, COLS = 80 };
+enum { ROWS = 24, COLS = 80 ,SIZECR = 5};
 enum { UP = 0, DOWN, LEFT, RIGHT };
 class Bullet;
+class Creature;
+//class LineFly;
 class TheSnakesGame {
 	enum { ESC = 27 };
 	Snake **s;
@@ -18,14 +23,25 @@ class TheSnakesGame {
 	Mission mission;
 	randNumbers gameNumbers;
 	int currMission;
+	bool endMission=false;
 	int shownNumbers[60];
 	char originalBoard[ROWS][COLS + 1];	// this is the original board that we got (we need COLS+1 because we handle it as null terminated char*)
 	char board[ROWS][COLS + 1];	// this is the actual board we play on, i.e. changes on board are done here
 	vector <Bullet> bullets;
+	//LineFly a;
+	//numberEater b;
+	Creature **cr;
 public:
 	TheSnakesGame()
-		: theMenu(this), gameNumbers(this)
+		: theMenu(this), gameNumbers(this) //a(this,Point(23,30),false,RIGHT),b(this,Point(19,10))
 	{
+		 //(this, Point(30, 23), false, RIGHT);
+		cr = new Creature*[SIZECR];
+		cr[0] = new LineFly(this, Point(23, 30), false, RIGHT);
+		cr[1] = new LineFly(this, Point(15, 50), true, LEFT);
+		cr[2] = new ColFly(this, Point(23, 45), true, UP);
+		cr[3] = new ColFly(this, Point(15, 55), false, DOWN);
+		cr[4] = new numberEater(this, Point(19, 10));
 		s = new Snake*[2];
 		s[0] = new Snake(RIGHT, 3, '@', Point(9, 10), LIGHTMAGENTA, 'z');
 		s[1] = new Snake(LEFT, 3, '#', Point(9, 70), LIGHTCYAN, 'n');
@@ -102,6 +118,27 @@ public:
 	void moveBul();//this function manage the bullets movement including check if hit number or snake 
 	bool bulletcollidesnake(Snake *s);//check if the snake hit his bullet or enemy bullet
 	bool checkValidMove(Bullet b,int index);//check if the movement of the bullet is valid - if not handle each case(number or snake)
+	void killShot(const Point &p,bool kill)
+	{
+		for (int i = 0; i < bullets.size(); i++)
+		{
+			if (bullets[i].getBullet().isSame(p))
+			{
+				if(!kill)
+					bullets[i].getfSnake()->addBullet();
+				bullets[i].clearBul();
+				deleteShot(i);
+				return;
+			}
+		}
+	}
+	int Creaturecollidesnake(Snake *s);
+	bool ObjectCollide(Point p, bool killBul, bool killSnake);//this function handle object collide-and return if the object can do his next move (if free space or if he can kill the snake/bullet(whatever he ran into) and move on
+		
+	int getNextMove(const Point &p)
+	{
+		return gameNumbers.findCloseNum(p);
+	}
 };
 
 #endif

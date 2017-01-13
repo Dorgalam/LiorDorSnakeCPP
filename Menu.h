@@ -47,8 +47,11 @@ class Menu  {
 		"Look for the number 13^2",
 		"Look for: Palindrome number",
 	}; // string missions
+	char *missionsBank[5] = {
+		
+	}; // string missions
 	char *instructions = {
-		"Two snakes battling over mathematical superiority.\nControl the greed $ snake with 'wxad' shoot by 'z',\nthe more calculated # snake with 'ijkl' shoot by 'n'.\nThe snake have each mission 5 bullets,\nIf one of the bullets hit the other snake, he gets another bullet,\nBullets hitting the numbers conceal them, \nComplete missions to score points and eventually win.\nBeware, wrong solutions will result in the other players point.\nThe first to get to 12 points win the Game(start from 3)!\nGood luck and may Sir Isaac Newton be with you!"
+		"Two snakes battling over mathematical superiority.\nControl the greed $ snake with 'wxad' shoot by 'z',\nthe more calculated # snake with 'ijkl' shoot by 'n'.\nThe snake have each mission 5 bullets,\nIf one of the bullets hit the other snake, he gets another bullet,\nBullets hitting the numbers conceal them, \nComplete missions to score points and eventually win.\nBeware, wrong solutions will result in the other players point.\nThe first to get to 12 points win the Game!\nGood luck and may Sir Isaac Newton be with you!"
 	}; //humoristic instructions
 	char *snakeWonMission[2] = {
 		"Snake 1 won this round",

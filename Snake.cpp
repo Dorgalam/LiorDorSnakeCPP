@@ -47,10 +47,11 @@ bool Snake::goodNum(int numMission,int num)
 		break;
 	}
 }
-int Snake::move(char opSymbol,int numOfMission)
+int Snake::move(char opSymbol, int numOfMission)
 {
 	Point nextPoint = body[0].next(direction);
 	char nextSpot = theGame->boardChar(nextPoint);
+	int res=0;
 	if (nextSpot >= '0' && nextSpot <= '9') {
 		int numCollected = theGame->getNumFromArray(nextPoint);
 		if (goodNum(numOfMission, numCollected)) {
@@ -65,22 +66,24 @@ int Snake::move(char opSymbol,int numOfMission)
 			PlaySound(TEXT("wrong.wav"), NULL, SND_FILENAME);
 		return 2;
 	}
-	if (!theGame->isWall(nextPoint, symbol))//next direction free
+	else if (theGame->isWall(nextPoint, ' '))//next direction free
 		stuck = false;
-	if ((theGame->isWall(nextPoint, symbol) || theGame->isWall(nextPoint, opSymbol)) && direction != 4)
+	else if ((theGame->isWall(nextPoint, symbol) || theGame->isWall(nextPoint, opSymbol)) && direction != 4)
 	{//check if the next direction is already taken - stop the snake movement
 		direction = 4;
 		stuck = true;
 		if (ifstream("punch.wav"))
 			PlaySound(TEXT("punch.wav"), NULL, SND_FILENAME);
 	}
-	if (theGame->isWall(nextPoint, '*'))
+	else if (theGame->isWall(nextPoint, '*'))
 	{
-		bool res = theGame->bulletcollidesnake(this);//check which bullet it is and take action as needed
-		if(res)//true only if the bullet was of the other snake
-		return 3;
+		bool opbul = theGame->bulletcollidesnake(this);//check which bullet it is and take action as needed
+		if(opbul)//true only if the bullet was of the other snake
+			return 3;
 	}
-	if (!stuck&&!suspended)
+	res = theGame->Creaturecollidesnake(this);
+
+	if (!stuck&&!suspended&&res==0)
 	{//move the snake on the board
 		body[body.size() - 1].draw(' ');
 		theGame->updateBoard(body[body.size() - 1].getX(), body[body.size() - 1].getY(), ' ');
@@ -91,7 +94,7 @@ int Snake::move(char opSymbol,int numOfMission)
 		setTextColor(color);
 		body[0].draw(symbol);
 	}
-	return 0;
+	return res;
 }
 int Snake::getDirection(char key)
 {
