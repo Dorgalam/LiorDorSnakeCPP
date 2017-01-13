@@ -106,11 +106,6 @@ void TheSnakesGame::init()
 		board[i][COLS] = '\0';
 	}
 	nextMission();
-	/*for (unsigned int i = 0; i < bullets.size(); i++)
-	{
-		bullets[i].clearBul();
-	}
-	bullets.clear();*/
 	s[0]->setGame(this);
 	s[1]->setGame(this);
 	s[0]->setArrowKeys("wxad");
@@ -178,6 +173,15 @@ void TheSnakesGame::userSelectionMenu(char &key)
 	else
 		key = ESC;
 }
+void TheSnakesGame::handleCreatureMove()
+{
+	for (int i = 0; i < SIZECR; i++)
+	{
+		cr[i]->move();
+		if (typeid(*cr[i]) != typeid(ColFly))
+			cr[i]->move();
+	}
+}
 void TheSnakesGame::run()
 {
 	int count = 1,susCount1 = 1,susCount2 = 1,dir,missionEnd;
@@ -224,9 +228,7 @@ void TheSnakesGame::run()
 		}
 		handleMove(0, 1, missionEnd, susCount1);//moving the snake and handle avery possible case(eating number,coliide with bullet and so on)
 		handleMove(1, 0, missionEnd, susCount2);
-		for (int i = 0; i < SIZECR; i++)
-			cr[i]->move();
-		
+		handleCreatureMove();
 		if (gameNumbers.getSize() == 60)
 		{
 			bool wasCorrectAnswer = gameNumbers.showNumbers(currMission);//show the numbers that is correct
@@ -298,9 +300,9 @@ bool TheSnakesGame::checkValidMove(Bullet b, int index)
 	}
 	else if (nextSpot != ' ')
 	{
-		b.clearBul();
+		handleCreatureCollideBul(index,nextPoint);
+		bullets[index].clearBul();
 		deleteShot(index);//delete shot
-		handleCreatureCollideBul(nextPoint);
 		//deal with the object - can do switch case
 	}
 	else
@@ -380,9 +382,10 @@ int TheSnakesGame::Creaturecollidesnake(Snake *s)
 		if (nextPoint.isSame(cr[i]->getPoint())&&!cr[i]->isSuspend())
 		{
 			s->Setsuspend(true);
+			s->clearSnake();
 			if (typeid(*cr[i]) == typeid(numberEater))//if you are number eater
 			{
-				s->clearSnake();
+				Sleep(150);
 				return 2;
 			}
 			else 
@@ -390,8 +393,9 @@ int TheSnakesGame::Creaturecollidesnake(Snake *s)
 				Creature *derived = dynamic_cast<Creature*>(cr[i]);
 				if (derived)
 				{
-					s->clearSnake();
-					return 3;
+					//if (typeid(derived) != typeid(LineFly))
+						//return 3;
+					return 3;//3
 				}
 			}
 		}
@@ -404,26 +408,38 @@ bool TheSnakesGame::ObjectCollide(Point p, bool killBul, bool killSnake)
 	{
 		if (killSnake)
 		{
+			s[0]->clearSnake();
+			Sleep(150);
+			s[0]->Setsuspend(true);
 			s[1]->snakeGrow();
 			theMenu.displayWinningMenu(1);
 			gameNumbers.showNumbers(currMission);
 			finishMission();
 		}
-		s[0]->clearSnake();
-		s[0]->Setsuspend(true);
+		else
+		{
+			s[0]->clearSnake();
+			s[0]->Setsuspend(true);
+		}
 		return killSnake;
 	}
 	if (isWall(p, s[1]->getSymbol()))
 	{
 		if (killSnake)
 		{
+			s[1]->clearSnake();
+			Sleep(150);
+			s[1]->Setsuspend(true);
 			s[0]->snakeGrow();
 			theMenu.displayWinningMenu(0);
 			gameNumbers.showNumbers(currMission);
 			finishMission();
 		}
-		s[1]->clearSnake();
-		s[1]->Setsuspend(true);
+		else
+		{
+			s[1]->clearSnake();
+			s[1]->Setsuspend(true);
+		}
 		return killSnake;
 	}
 	if (isWall(p, '*'))
@@ -438,12 +454,13 @@ bool TheSnakesGame::ObjectCollide(Point p, bool killBul, bool killSnake)
 	////need to add the other objects - decide to do nothing or to kill both
 	return true;
 }
-void TheSnakesGame::handleCreatureCollideBul(const Point& p)
+void TheSnakesGame::handleCreatureCollideBul(int index,const Point& p)
 {
 	for (int i = 0; i < SIZECR; i++)
 	{
-		if (typeid(*cr[i]) == typeid(numberEater) || typeid(*cr[i]) == typeid(ColFly) && cr[i]->getPoint().isSame(p) && !cr[i]->isSuspend())
+		if ((typeid(*cr[i]) == typeid(numberEater) || typeid(*cr[i]) == typeid(ColFly))&& cr[i]->getPoint().isSame(p) && !cr[i]->isSuspend())
 		{//if you kind of creature that sensitive to bullet 
+			bullets[index].getfSnake()->addBullet();
 			cr[i]->setSuspend(true);
 			cr[i]->clearCr();
 			return;

@@ -88,13 +88,12 @@ public:
 	bool checkValidMove(Bullet b,int index);//check if the movement of the bullet is valid - if not handle each case(number or snake)
 	void killShot(const Point &p, bool kill);
 	int Creaturecollidesnake(Snake *s);//this function check if the snake's next move is one of the creatures- and handle each case .
-
-	bool ObjectCollide(Point p, bool killBul, bool killSnake);//this function handle object collide-and return if the object can do his next move (if free space or if he can kill the snake/bullet(whatever he ran into) and move on
-    
+	bool ObjectCollide(Point p, bool killBul, bool killSnake);//this function handle object collide-and return if the object can do his next move (if free space or if he can kill the snake/bullet(whatever he ran into) and move on 
     //this function go to the randNumbers on the board and check which correct number closer to the given point and return the next direction where to move to get closer .if there is no correct number return 4(don’t move)
 	int getNextMove(const Point &p){return gameNumbers.findCloseNum(p);}
 	bool creaturePlace(const Point &p);//this function check if the point is a creature 
-	void handleCreatureCollideBul(const Point& p);
+	void handleCreatureCollideBul(int index, const Point& p);
+	void handleCreatureMove();//this function move the creatures,number eaters and Line fly double speed
 };
 
 #endif
