@@ -2,6 +2,7 @@
 #define _MENU_H
 #include "io_utils.h"
 #include "Mission.h"
+#include "MissionBase.h"
 #include <string>
 using namespace std;
 
@@ -10,10 +11,10 @@ enum { EXIT_MID = '1', MAIN_MENU='2', RESUME='3', RESTART_MISSION='4', NEW_MISSI
 enum {Plus=0,Minus,Mult,Div};
 class TheSnakesGame;
 class Mission;
-
+class MissionBank;
 class Menu  {
 	TheSnakesGame *game;
-	Mission *mission;
+	MissionBank **m;
 	Color txtColor=WHITE;
 	char screen[5][82] = {
 		//		  10        20        30        40        50        60        70   
@@ -47,7 +48,7 @@ class Menu  {
 		"Look for the number 13^2",
 		"Look for: Palindrome number",
 	}; // string missions
-	char *missionsBank[5] = {
+	char *missionsBank[8] = {
 		
 	}; // string missions
 	char *instructions = {
@@ -66,7 +67,7 @@ class Menu  {
 		"congratulation:) snake 2 won the game!!!",
 	};
 public:
-	Menu(TheSnakesGame *_game) : game(_game) {}
+	Menu(TheSnakesGame *_game, MissionBank **_m) : game(_game) ,m(_m){}
 	void print(Color c);
 	void setColor(Color c) {
 		txtColor = c;
@@ -96,7 +97,15 @@ public:
 	}
 	void PickNums(int &place, int nums[], char* operator1, char * operator2);//get random numbers and random operators
 	bool CheckValidation(int nums[], int place, char* operator1, char* operator2);//check if there is a correct answer in the range(1-169) to the random mission
-
+	void setMission(int i)
+	{
+		m[i]->makeValidExe();
+		missionsBank[i] = m[i]->getMission();
+	}
+	void setBank(MissionBank ** _m)
+	{
+		m = _m;
+	}
 };
 
 #endif

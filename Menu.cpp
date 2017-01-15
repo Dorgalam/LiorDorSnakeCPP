@@ -1,6 +1,7 @@
 #include "Menu.h"
 #include "TheSnakesGame.h"
 #include "Countdown.h"
+#include "MissionBase.h"
 //#include <string>
 void Menu::print(Color c) {
 	int i = 0;
@@ -23,9 +24,10 @@ void Menu::clear() {
 }
 void Menu::newMission(int numMission, bool needUpdate) {
 	clear();
-	if (needUpdate&&numMission == 7)
-		mathExe();//make the mission-every time another mission
-	edit(2, 33 - strlen(missions[numMission]) / 2, missions[numMission]);
+	//m[numMission]->makeValidExe();
+	if(needUpdate)
+		setMission(numMission);
+	edit(2, 28 - strlen(m[numMission]->getMission()) / 2, m[numMission]->getMission());
 	print(WHITE);
 }
 void Menu::updateScoreBoard(int score1, int score2)
@@ -134,10 +136,12 @@ int Menu::displayIngameMenu() {
 			break;
 		case RESUME:
 			newMission(game->getCurrMission(), false);
+			//need something new
 			goodChoice = true;
 			break;
 		case RESTART_MISSION:
 			newMission(game->getCurrMission(), false);
+			//need something new
 			goodChoice = true;
 			break;
 		case NEW_MISSION:
@@ -202,7 +206,7 @@ bool Menu::CheckValidation(int nums[], int place, char* operator1, char* operato
 	char op1 = operator1[0], op2 = operator2[0];
 	for (nums[place] = 1; nums[place] < 170; nums[place]++)
 	{
-		if (mission->helperMath(nums, op1, op2))
+		//if (mission->helperMath(nums, op1, op2))
 			return true;
 	}
 	return false;

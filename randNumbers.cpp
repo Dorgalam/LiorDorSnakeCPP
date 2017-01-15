@@ -1,40 +1,11 @@
 #include "randNumbers.h"
 #include "TheSnakesGame.h"
-//#include <string>   
+
 
 enum { OFFSET = 5 };
 bool randNumbers::goodNum(int numMission, int num)
 {
-	switch (numMission) {//go through all options for numMission and return correct function value
-	case 0:
-		return m.isPrime(num);
-		break;
-	case 1:
-		return m.div4(num);
-		break;
-	case 2:
-		return m.div7(num);
-		break;
-	case 3:
-		return m.isSquare(num);
-		break;
-	case 4:
-		return m.div7rem3(num);
-		break;
-	case 5:
-		return m.is169(num);
-		break;
-	case 6:
-		return m.isPalindrom(num);
-		break;
-	case 7:
-		m = game->returnM();
-		return m.mathExe(num);
-		break;
-	default:
-		return false;
-		break;
-	}
+	return missions[numMission]->isCorrectNum(num);
 }
 
 bool randNumbers::showNumbers(int num)
@@ -112,7 +83,7 @@ int randNumbers::generateNumber() {
 	odds = rand() % 3;
 	switch (odds) {
 	case 0:
-		generated = rand() % 26;
+		generated = rand() % 25 + 1;
 		break;
 	case 1:
 		generated = rand() % 56 + 26;
@@ -120,9 +91,11 @@ int randNumbers::generateNumber() {
 	case 2:
 		generated = rand() % 88 + 82;
 		break;
+	default: 
+		return 10;
+		break;
 	}
 	return generated;
-
 }
 int randNumbers::whatNum(const Point& p) {
 	int res = -1;
@@ -155,7 +128,7 @@ void randNumbers::DeleteNum(const Point& p) {
 numCoord randNumbers::findSpot() {
 	numCoord res;
 	res.num = generateNumber();
-	res.len = (int)log10(res.num) + 1;
+	res.len = (int)(log10(double(res.num))) + 1;
 	int x, y;
 	bool goodSpot = false;
 	while (!goodSpot) {

@@ -5,6 +5,7 @@
 #include <vector>
 #include "Mission.h"
 
+
 struct numCoord {
 	int num;
 	int len;
@@ -12,13 +13,22 @@ struct numCoord {
 };
 class TheSnakesGame;
 class Mission;
+class MissionBank;
 class randNumbers {
 	vector<numCoord> numVec; //saves all on board random values
-	Mission m;  
+	Mission m; 
+	MissionBank **missions;
 	TheSnakesGame *game;
 public:
-	randNumbers(TheSnakesGame *_game): game(_game) {} //constructor, just put game's value inside
-	
+	randNumbers(TheSnakesGame *_game,MissionBank ** _m): game(_game),missions(_m) {} //constructor, just put game's value inside
+	void setBank(MissionBank ** _m)
+	{
+		missions = _m;
+	}
+	void setMissin(MissionBank * _m,int numMis)
+	{
+		missions[numMis] = _m;
+	}
 	int generateNumber(); //creates a random as required
 	numCoord randNumbers::findSpot(); //find a suitable spot in the board
 	int getSize() { if (numVec.empty())return 0; return numVec.size(); } //just to pipe value forward

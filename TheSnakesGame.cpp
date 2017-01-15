@@ -3,18 +3,16 @@
 #include "Creature.h"
 void TheSnakesGame::startMission() { //create random display new mission in menu
 	currMission = rand() % 8;
-	theMenu.newMission(currMission);
-	if (currMission == 7)
-		mission.set7(theMenu.getM7());
+	theMenu.newMission(currMission);//set the mission - on the menu
+	gameNumbers.setMissin(m[currMission], currMission);//set the mission - the rand numbers
 }
 void TheSnakesGame::finishMission()
 {
+	m[currMission]->initMis();
 	s[0]->clearSnake();
 	s[1]->clearSnake();
 	theMenu.updateScoreBoard(s[0]->getSize(), s[1]->getSize());
 	gameNumbers.removeHalf();//clean the half board and the snakes
-	if (currMission == 7)
-		mission.free7();
 	nextMission();//go to next mission
 	theMenu.updateScoreBoard(s[0]->getSize(), s[1]->getSize());
 }

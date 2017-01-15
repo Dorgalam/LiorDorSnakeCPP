@@ -8,8 +8,9 @@
 #include <vector>
 #include "Mission.h"
 #include "Bullet.h"
+#include "MissionBase.h"
 class TheSnakesGame;
-
+class MissionBank;
 class Snake {
 	enum { SIZE = 5 };
 
@@ -18,7 +19,7 @@ class Snake {
 	int direction; // TODO: use enum!
 	char arrowKeys[4];
 	Color color;
-	Mission m;
+	MissionBank **m;
 	TheSnakesGame* theGame = nullptr;
 	char symbol;
 	char ShootKey;
@@ -26,8 +27,8 @@ class Snake {
 	bool suspended = false;
 	int numBul = 5;
 public:
-	Snake(int dir, unsigned int size, char _symbol, Point start, Color c, char Skey)
-		: symbol(_symbol)
+	Snake(int dir, unsigned int size, char _symbol, Point start, Color c, char Skey,MissionBank **_m)
+		: symbol(_symbol),m(_m)
 	{
 		for (unsigned int i = 0; i < size; i++)
 		{
@@ -37,6 +38,10 @@ public:
 		direction = dir;
 		ShootKey = Skey;
 	
+	}
+	void setBank(MissionBank ** _m)
+	{
+		m = _m;
 	}
 	~Snake()
 	{
@@ -72,7 +77,7 @@ public:
 		for (unsigned int i = 0; i < body.size(); i++)
 			body.pop_back();
 	}
-	void getGameM(Mission gameM) { m = gameM; }
+	void setMission(MissionBank** gameM) { m = gameM; }
 	char getShoot() { return ShootKey; }
 
 	void Setsuspend(bool s) {

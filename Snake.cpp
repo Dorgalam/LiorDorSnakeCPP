@@ -47,35 +47,7 @@ void Snake::updateBullets() {
 }
 bool Snake::goodNum(int numMission,int num)
 {
-	switch (numMission) {
-	case 0:
-		return m.isPrime(num);
-		break;
-	case 1:
-		return m.div4(num);
-		break;
-	case 2:
-		return m.div7(num);
-		break;
-	case 3:
-		return m.isSquare(num);
-		break;
-	case 4:
-		return m.div7rem3(num);
-		break;
-	case 5:
-		return m.is169(num);
-		break;
-	case 6:
-		return m.isPalindrom(num);
-	default:
-	case 7:
-		getGameM(theGame->returnM());
-		return m.mathExe(num);
-		break;
-		return false;
-		break;
-	}
+	return m[numMission]->isCorrectNum(num);
 }
 int Snake::move(char opSymbol, int numOfMission)
 {

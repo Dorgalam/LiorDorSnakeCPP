@@ -9,12 +9,14 @@
 #include "LineFly.h"
 #include "numberEater.h"
 #include "ColFly.h"
+#include "MissionBase.h"
 using namespace std;
 
 enum { ROWS = 24, COLS = 80 ,SIZECR = 5};
 enum { UP = 0, DOWN, LEFT, RIGHT };
 class Bullet;
 class Creature;
+class MissionBank;
 
 class TheSnakesGame {
 	enum { ESC = 27 };
@@ -23,16 +25,40 @@ class TheSnakesGame {
 	Mission mission;
 	randNumbers gameNumbers;
 	int currMission;
-	bool endMission=false;
 	int shownNumbers[60];
 	char originalBoard[ROWS][COLS + 1];	// this is the original board that we got (we need COLS+1 because we handle it as null terminated char*)
 	char board[ROWS][COLS + 1];	// this is the actual board we play on, i.e. changes on board are done here
 	vector <Bullet> bullets;
+	MissionBank **m;
 	Creature **cr;
 public:
-	TheSnakesGame()
-		: theMenu(this), gameNumbers(this) //a(this,Point(23,30),false,RIGHT),b(this,Point(19,10))
+	void CreateMission()
 	{
+		m = new MissionBank*[10];
+		ifstream readFile("textfile.txt");
+		int i = 0;
+		char *line = new char[sizeof(char)*80];
+		char *missionline = new char[sizeof(char) * 80];
+		vector <char*> nums;
+		vector <char*> op;
+		op.push_back("dummy");
+		while (readFile.getline(line, 256)) {
+			strcpy(missionline, line);
+			m[i++] = new MissionBase(missionline, &theMenu);
+		}
+		free(line);
+		free(missionline);
+		//m[6]->makeValidExe();
+		//m[7]->makeValidExe();
+		readFile.close();
+	}
+	TheSnakesGame()
+		: theMenu(this,m), gameNumbers(this,m) //a(this,Point(23,30),false,RIGHT),b(this,Point(19,10))
+	{
+		CreateMission();
+		theMenu.setBank(m);
+		gameNumbers.setBank(m);
+		//theMenu.setMission(2);
 		cr = new Creature*[SIZECR];
 		cr[0] = new LineFly(this, Point(23, 30), false, RIGHT);
 		cr[1] = new LineFly(this, Point(15, 50), true, LEFT);
@@ -40,8 +66,8 @@ public:
 		cr[3] = new ColFly(this, Point(15, 55), false, DOWN);
 		cr[4] = new numberEater(this, Point(19, 10));
 		s = new Snake*[2];
-		s[0] = new Snake(RIGHT, 3, '@', Point(9, 10), LIGHTMAGENTA, 'z');
-		s[1] = new Snake(LEFT, 3, '#', Point(9, 70), LIGHTCYAN, 'n');
+		s[0] = new Snake(RIGHT, 3, '@', Point(9, 10), LIGHTMAGENTA, 'z',m);
+		s[1] = new Snake(LEFT, 3, '#', Point(9, 70), LIGHTCYAN, 'n',m);
 		system("mode con:cols=80 lines=30");
 	}
 	int getNumFromArray(const Point &p) { //pipe through the randNumbers class for easy access 
