@@ -10,7 +10,7 @@ class LineFly :public Creature
 	bool ChangingSides;
 
 public:
-	LineFly():ChangingSides(false), Creature(Point(), '!', 4, nullptr) {}
+	//LineFly():Creature(Point(), '!', 4, nullptr) {}
 	LineFly(TheSnakesGame *g,Point p,bool sidetoside,int d) : ChangingSides(sidetoside),Creature(p, '!', d, g) {}
 	~LineFly() {}
 	virtual void move();

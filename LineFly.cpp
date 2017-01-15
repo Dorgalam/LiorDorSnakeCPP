@@ -3,9 +3,9 @@
 void LineFly::move()
 {
 	
-	if (dir == LEFT&&p.getX() == 0 && ChangingSides)
+	if (dir == LEFT&&p.getY() == 1 && ChangingSides)
 		dir = RIGHT;
-	if (dir == RIGHT &&p.getX() == 79 && ChangingSides)
+	if (dir == RIGHT &&p.getY() == 79 && ChangingSides)
 		dir = LEFT;
 	Point nextPoint = p.next(dir);
 	game->ObjectCollide(nextPoint, true, false);//this function need to kill all the enemy that we will run into
