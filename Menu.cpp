@@ -106,8 +106,8 @@ void Menu::pickDifficulty() {
 			game->CreateMissions("hard.txt");
 			goodChoice = true;
 			break;
-		case EXSTREME:
-			game->CreateMissions("hard.txt");
+		case EXTREME:
+			game->CreateMissions("extreme.txt");
 			goodChoice = true;
 			break;
 		default:

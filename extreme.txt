@@ -1,0 +1,8 @@
+collect number X that solve: X % Y = 0 && X % Z = 0
+collect number X that solve: X + Y = Z + R
+collect number X that solve: X > Y && X < Z
+collect number X that solve: X + Y = Z 
+collect number X that solve: Z + Y = X * 2
+collect number X that solve: X % Y = 0
+collect number X that solve: X ^ 2 < 145
+collect number X that solve: Y * Z = X

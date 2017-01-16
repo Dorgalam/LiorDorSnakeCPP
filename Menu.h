@@ -6,7 +6,7 @@
 #include <string>
 #define _CRT_SECURE_NO_WARNINGS
 using namespace std;
-enum { EASY = '1', HARD = '2', EXSTREME = '3' };
+enum { EASY = '1', HARD = '2', EXTREME = '3' };
 
 enum { INSTRUCTIONS = '1', START='2', EXIT_START = '9' };
 enum { EXIT_MID = '1', MAIN_MENU='2', RESUME='3', RESTART_MISSION='4', NEW_MISSION='5', RESTART_GAME='6' };
