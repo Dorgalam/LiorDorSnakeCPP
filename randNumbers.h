@@ -3,7 +3,7 @@
 
 #include "Point.h"
 #include <vector>
-#include "Mission.h"
+//#include "Mission.h"
 
 
 struct numCoord {
@@ -12,11 +12,11 @@ struct numCoord {
 	Point p;
 };
 class TheSnakesGame;
-class Mission;
+//class Mission;
 class MissionBank;
 class randNumbers {
 	vector<numCoord> numVec; //saves all on board random values
-	Mission m; 
+	//Mission m; 
 	MissionBank **missions;
 	TheSnakesGame *game;
 public:

@@ -1,16 +1,17 @@
 #ifndef _MENU_H
 #define _MENU_H
 #include "io_utils.h"
-#include "Mission.h"
-#include "MissionBase.h"
+//#include "Mission.h"
+#include "MissionBank.h"
 #include <string>
+#define _CRT_SECURE_NO_WARNINGS
 using namespace std;
 
 enum { INSTRUCTIONS = '1', START='2', EXIT_START = '9' };
 enum { EXIT_MID = '1', MAIN_MENU='2', RESUME='3', RESTART_MISSION='4', NEW_MISSION='5', RESTART_GAME='6' };
 enum {Plus=0,Minus,Mult,Div};
 class TheSnakesGame;
-class Mission;
+//class Mission;
 class MissionBank;
 class Menu  {
 	TheSnakesGame *game;

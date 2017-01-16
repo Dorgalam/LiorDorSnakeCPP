@@ -24,10 +24,9 @@ void Menu::clear() {
 }
 void Menu::newMission(int numMission, bool needUpdate) {
 	clear();
-	//m[numMission]->makeValidExe();
 	if(needUpdate)
 		setMission(numMission);
-	edit(2, 28 - strlen(m[numMission]->getMission()) / 2, m[numMission]->getMission());
+	edit(2, 30 - strlen(m[numMission]->getMission()) / 2, m[numMission]->getMission());
 	print(WHITE);
 }
 void Menu::updateScoreBoard(int score1, int score2)

@@ -9,7 +9,11 @@
 #include "LineFly.h"
 #include "numberEater.h"
 #include "ColFly.h"
-#include "MissionBase.h"
+#include "oneOP.h"
+#include "twoOP.h"
+#include "threeOP.h"
+#include "fiveOP.h"
+#define _CRT_SECURE_NO_WARNINGS
 using namespace std;
 
 enum { ROWS = 24, COLS = 80 ,SIZECR = 5};
@@ -22,7 +26,7 @@ class TheSnakesGame {
 	enum { ESC = 27 };
 	Snake **s;
 	Menu theMenu;
-	Mission mission;
+	//Mission mission;
 	randNumbers gameNumbers;
 	int currMission;
 	int shownNumbers[60];
@@ -32,30 +36,11 @@ class TheSnakesGame {
 	MissionBank **m;
 	Creature **cr;
 public:
-	void CreateMission()
-	{
-		m = new MissionBank*[10];
-		ifstream readFile("textfile.txt");
-		int i = 0;
-		char *line = new char[sizeof(char)*80];
-		char *missionline = new char[sizeof(char) * 80];
-		vector <char*> nums;
-		vector <char*> op;
-		op.push_back("dummy");
-		while (readFile.getline(line, 256)) {
-			strcpy(missionline, line);
-			m[i++] = new MissionBase(missionline, &theMenu);
-		}
-		free(line);
-		free(missionline);
-		//m[6]->makeValidExe();
-		//m[7]->makeValidExe();
-		readFile.close();
-	}
+	
 	TheSnakesGame()
 		: theMenu(this,m), gameNumbers(this,m) //a(this,Point(23,30),false,RIGHT),b(this,Point(19,10))
 	{
-		CreateMission();
+		CreateMissions();
 		theMenu.setBank(m);
 		gameNumbers.setBank(m);
 		//theMenu.setMission(2);
@@ -69,6 +54,58 @@ public:
 		s[0] = new Snake(RIGHT, 3, '@', Point(9, 10), LIGHTMAGENTA, 'z',m);
 		s[1] = new Snake(LEFT, 3, '#', Point(9, 70), LIGHTCYAN, 'n',m);
 		system("mode con:cols=80 lines=30");
+	}
+	void CreateMissions()
+	{
+		m = new MissionBank*[8];
+		ifstream readFile("easy.txt");
+		int i = 0;
+		char *line = new char[sizeof(char) * 80];
+		char *missionline = new char[sizeof(char) * 80];
+		while (readFile.getline(line, 256)) {
+			m[i++] = buildEXE(line);
+		}
+		if (i == 0)
+		{
+			cout << "there is no question file!"<<endl;
+			exit(0);
+		}
+		free(line);
+		free(missionline);
+		readFile.close();
+	}
+	MissionBank* buildEXE(char *str)
+	{//creating the missions
+		vector <char*> numbers;
+		vector <char*>  operators;
+		MissionBank *m;
+		char *line = new char[sizeof(char) * 80];
+		operators.push_back("dummy");
+		strcpy(line, str);
+		strtok(line, ":");
+		while (operators.back() != NULL)
+		{
+			numbers.push_back(strtok(NULL, " "));
+			operators.push_back(strtok(NULL, " "));
+		}
+		operators.erase(operators.begin() + 0);
+		operators.erase(operators.begin() + operators.size() - 1);
+		switch (operators.size())
+		{
+		case 1:
+			m = new oneOP(str,&theMenu,numbers,operators);
+			break;
+		case 2:
+			m = new twoOP(str, &theMenu, numbers, operators);
+			break;
+		case 3:
+			m = new threeOP(str, &theMenu, numbers, operators);
+			break;
+		case 5:
+			m = new fiveOP(str, &theMenu, numbers, operators);
+			break;
+		}
+		return m;
 	}
 	int getNumFromArray(const Point &p) { //pipe through the randNumbers class for easy access 
 		return gameNumbers.whatNum(p);
@@ -102,7 +139,7 @@ public:
 	void userSelectionMenu(char &key);//handle the user selection after he chose esc to see the menu-deal with resume,restart game and etc
 	void nextMission();//get the next mission(random mission) and start the mission
 	void flashNum(numCoord numVec, Color color);//this function flash all the correct answers
-	Mission returnM(){return mission;}//send the existing mission with all the mission values
+	//Mission returnM(){return mission;}//send the existing mission with all the mission values
 	void DeletNumFromArray(const Point &p) { //pipe through the randNumbers class for easy access 
 		gameNumbers.DeleteNum(p);
 	}
