@@ -6,7 +6,7 @@
 #include "Point.h"
 #include <fstream>
 #include <vector>
-#include "Mission.h"
+//#include "Mission.h"
 #include "Bullet.h"
 #include "MissionBase.h"
 class TheSnakesGame;
@@ -38,6 +38,10 @@ public:
 		direction = dir;
 		ShootKey = Skey;
 	
+	}
+	void setM(MissionBank **_m)
+	{
+		m = _m;
 	}
 	void setBank(MissionBank ** _m)
 	{
