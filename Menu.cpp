@@ -59,6 +59,7 @@ void Menu::displayStartMenu() {
 	{
 		switch (key) { //give correct output for all known results, otherwise look for another key
 		case START:
+			pickDifficulty();
 			Countdown().start();
 			game->init();
 			goodChoice = true;
@@ -80,6 +81,45 @@ void Menu::displayStartMenu() {
 			break;
 		}
 	}
+}
+void Menu::pickDifficulty() {
+	char key;
+	bool goodChoice = false;
+	clear();
+	edit(1, 2, level[0]);
+	edit(2, 2, level[1]);
+	edit(3, 2, level[2]);
+	print(WHITE);
+	while (!_kbhit()) //listen to a new key pressed in the keyboard
+	{
+
+	}
+	key = _getch();
+	while (!goodChoice)
+	{
+		switch (key) { //give correct output for all known results, otherwise look for another key
+		case EASY:
+			game->CreateMissions("easy.txt");
+			goodChoice = true;
+			break;
+		case HARD:
+			game->CreateMissions("hard.txt");
+			goodChoice = true;
+			break;
+		case EXSTREME:
+			game->CreateMissions("hard.txt");
+			goodChoice = true;
+			break;
+		default:
+			while (!_kbhit())
+			{
+
+			}
+			key = _getch();
+			break;
+		}
+	}
+	return;
 }
 void Menu::displayWinningMenu(int num)
 {

@@ -40,10 +40,24 @@ public:
 	TheSnakesGame()
 		: theMenu(this,m), gameNumbers(this,m) //a(this,Point(23,30),false,RIGHT),b(this,Point(19,10))
 	{
-		CreateMissions();
-		theMenu.setBank(m);
-		gameNumbers.setBank(m);
+		//CreateMissions();
+		//theMenu.setBank(m);
+		//gameNumbers.setBank(m);
 		//theMenu.setMission(2);
+		createCreatures();
+		system("mode con:cols=80 lines=30");
+	}
+	void setCreatures()
+	{
+		for (int i = 0; i < SIZECR; i++)
+		{
+			cr[i]->setG(this);
+		}
+		s[0]->setM(m);
+		s[1]->setM(m);
+	}
+	void createCreatures()
+	{
 		cr = new Creature*[SIZECR];
 		cr[0] = new LineFly(this, Point(23, 30), false, RIGHT);
 		cr[1] = new LineFly(this, Point(15, 50), true, LEFT);
@@ -51,14 +65,13 @@ public:
 		cr[3] = new ColFly(this, Point(15, 55), false, DOWN);
 		cr[4] = new numberEater(this, Point(19, 10));
 		s = new Snake*[2];
-		s[0] = new Snake(RIGHT, 3, '@', Point(9, 10), LIGHTMAGENTA, 'z',m);
-		s[1] = new Snake(LEFT, 3, '#', Point(9, 70), LIGHTCYAN, 'n',m);
-		system("mode con:cols=80 lines=30");
+		s[0] = new Snake(RIGHT, 3, '@', Point(9, 10), LIGHTMAGENTA, 'z', m);
+		s[1] = new Snake(LEFT, 3, '#', Point(9, 70), LIGHTCYAN, 'n', m);
 	}
-	void CreateMissions()
+	void CreateMissions(const char *fileName)
 	{
 		m = new MissionBank*[8];
-		ifstream readFile("easy.txt");
+		ifstream readFile(fileName);
 		int i = 0;
 		char *line = new char[sizeof(char) * 80];
 		char *missionline = new char[sizeof(char) * 80];
@@ -73,6 +86,10 @@ public:
 		free(line);
 		free(missionline);
 		readFile.close();
+		theMenu.setBank(m);
+		//theMenu.setG(this);
+		gameNumbers.setBank(m);
+		setCreatures();
 	}
 	MissionBank* buildEXE(char *str)
 	{//creating the missions

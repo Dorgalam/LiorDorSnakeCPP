@@ -6,6 +6,7 @@
 #include <string>
 #define _CRT_SECURE_NO_WARNINGS
 using namespace std;
+enum { EASY = '1', HARD = '2', EXSTREME = '3' };
 
 enum { INSTRUCTIONS = '1', START='2', EXIT_START = '9' };
 enum { EXIT_MID = '1', MAIN_MENU='2', RESUME='3', RESTART_MISSION='4', NEW_MISSION='5', RESTART_GAME='6' };
@@ -32,6 +33,11 @@ class Menu  {
 		"(2) Start",
 		"(9) Exit",
 	}; //string instructions
+	char *level[3] = {
+		"(1) easy",
+		"(2) hard",
+		"(3) Extreme",
+	}; //string levels
 	char *inGameMenu[6] = {
 		"(1) Exit",
 		"(2) Main Menu",
@@ -69,6 +75,10 @@ class Menu  {
 	};
 public:
 	Menu(TheSnakesGame *_game, MissionBank **_m) : game(_game) ,m(_m){}
+	void setG(TheSnakesGame *_game)
+	{
+		game = _game;
+	}
 	void print(Color c);
 	void setColor(Color c) {
 		txtColor = c;
@@ -107,6 +117,7 @@ public:
 	{
 		m = _m;
 	}
+	void Menu::pickDifficulty();
 };
 
 #endif
