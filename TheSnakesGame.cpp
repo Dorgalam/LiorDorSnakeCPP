@@ -479,3 +479,58 @@ bool TheSnakesGame::creaturePlace(const Point &p)
 	}
 	return false;
 }
+void TheSnakesGame::CreateMissions(const char *fileName)
+{
+	m = new MissionBank*[8];
+	ifstream readFile(fileName);
+	int i = 0;
+	char *line = new char[sizeof(char) * 80];
+	char *missionline = new char[sizeof(char) * 80];
+	while (readFile.getline(line, 256)) {
+		m[i++] = buildEXE(line);
+	}
+	if (i == 0)
+	{
+		cout << "there is no question file!" << endl<<"can't play";
+		exit(0);
+	}
+	free(line);
+	free(missionline);
+	readFile.close();
+	theMenu.setBank(m);
+	gameNumbers.setBank(m);
+	setCreatures();
+}
+MissionBank* TheSnakesGame::buildEXE(char *str)
+{//creating the missions
+	vector <char*> numbers;
+	vector <char*>  operators;
+	MissionBank *m;
+	char *line = new char[sizeof(char) * 80];
+	operators.push_back("dummy");
+	strcpy(line, str);
+	strtok(line, ":");
+	while (operators.back() != NULL)
+	{
+		numbers.push_back(strtok(NULL, " "));
+		operators.push_back(strtok(NULL, " "));
+	}
+	operators.erase(operators.begin() + 0);
+	operators.erase(operators.begin() + operators.size() - 1);
+	switch (operators.size())
+	{
+	case 1:
+		m = new oneOP(str, &theMenu, numbers, operators);
+		break;
+	case 2:
+		m = new twoOP(str, &theMenu, numbers, operators);
+		break;
+	case 3:
+		m = new threeOP(str, &theMenu, numbers, operators);
+		break;
+	case 5:
+		m = new fiveOP(str, &theMenu, numbers, operators);
+		break;
+	}
+	return m;
+}

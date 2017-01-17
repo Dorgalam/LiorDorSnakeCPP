@@ -2,7 +2,7 @@ collect number X that solve: X % Y = 0 && X % 16 = 0
 collect number X that solve: X > Y || X < Z
 collect number X that solve: Y + X = Z - 18
 collect number X that solve: X * 2 = Z - Y
-collect number X that solve: 25 = X ^ 2
+collect number X that solve: Z = X ^ 2
 collect number X that solve: X % Y < Z
 collect number X that solve: Z - 2 = X
 collect number X that solve: Y + Z = X
