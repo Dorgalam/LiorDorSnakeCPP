@@ -149,6 +149,11 @@ void TheSnakesGame::userSelectionMenu(char &key)
 	int clickedEscape = theMenu.displayIngameMenu();
 	if (clickedEscape != 1) {
 		key = rand() % 4;
+		if (clickedEscape != 3)
+		{
+			for (int i = 0; i < SIZECR; i++)
+				cr[i]->setSuspend(false);
+		}
 		if (clickedEscape != 3 && clickedEscape != 6 && clickedEscape != 2)
 		{
 			s[0]->clearSnake();
