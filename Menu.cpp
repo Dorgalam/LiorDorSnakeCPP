@@ -134,16 +134,16 @@ void Menu::displayWinningMenu(int num)
 	edit(1, 2, snakeWonMission[num]); 
 	print(YELLOW);
 	int lagCount = 0;
-	char ch;
-	clock_t start = clock();
-	while (!_kbhit()) //Check for keyboard hit
+	char ch = 0;
+	time_t now = time(&now), later = time(&later);
+	while (later - now <= 2) //Check for keyboard hit
 	{
-		if (((clock() - start) / CLOCKS_PER_SEC) >= 2)
-		{
-			start = clock();                            
+		if (_kbhit()) {
+			ch = _getch();
+			break;
 		}
+		later = time(&later);
 	}
-	ch = _getch();
 	if (ch == ESC) {
 		displayIngameMenu(true);
 	}

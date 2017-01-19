@@ -12,7 +12,7 @@ void MissionBank::SetMission(vector <int> numsVec) {
 		else
 		{
 			char str[4];
-			strcat(newstr, itoa(numsVec[i], str, 10));
+			strcat(newstr, _itoa(numsVec[i], str, 10));
 		}
 		strcat(newstr, " ");
 		strcat(newstr, operators[i]);
@@ -23,7 +23,7 @@ void MissionBank::SetMission(vector <int> numsVec) {
 	else
 	{
 		char str[4];
-		strcat(newstr, itoa(numsVec[numsVec.size() - 1], str, 10));
+		strcat(newstr, _itoa(numsVec[numsVec.size() - 1], str, 10));
 	}
 	strcpy(mission, newstr);
 }

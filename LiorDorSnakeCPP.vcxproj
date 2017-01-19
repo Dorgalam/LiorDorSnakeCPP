@@ -56,6 +56,7 @@
     <ClCompile Include="oneOP.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="randNumbers.cpp" />
+    <ClCompile Include="Rewind.cpp" />
     <ClCompile Include="Snake.cpp" />
     <ClCompile Include="TheSnakesGame.cpp" />
     <ClCompile Include="threeOP.cpp" />

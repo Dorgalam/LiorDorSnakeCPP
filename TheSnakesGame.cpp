@@ -338,7 +338,7 @@ void TheSnakesGame::deleteShot(int i) {
 }
 void TheSnakesGame::killShot(const Point &p, bool kill)
 {
-	for (int i = 0; i < bullets.size(); i++)
+	for (unsigned int i = 0; i < bullets.size(); i++)
 	{
 		if (bullets[i].getBullet().isSame(p))
 		{
@@ -457,7 +457,7 @@ bool TheSnakesGame::ObjectCollide(Point p, bool killBul, bool killSnake)
 		killShot(p, killBul);
 		return killBul;
 	}
-	if ('0' <= boardChar(p) <= '9')
+	if (('0' <= boardChar(p)) && (boardChar(p) <= '9'))
 	{
 		gameNumbers.DeleteNum(p);
 	}

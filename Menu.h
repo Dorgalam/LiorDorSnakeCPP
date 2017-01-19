@@ -33,8 +33,8 @@ class Menu  {
 		"(9) Exit",
 	}; //string instructions
 	char *level[3] = {
-		"(1) easy",
-		"(2) hard",
+		"(1) Easy",
+		"(2) Hard",
 		"(3) Extreme",
 	}; //string levels
 	char *inGameMenu[7] = {
@@ -44,7 +44,7 @@ class Menu  {
 		"(4) Restart Mission",
 		"(5) New Mission",
 	    "(6) Restart Game",
-		"(7) Rewind last"
+		"(7) Replay last"
 	}; //menu items
 	char *missions[8] = {
 		"Look for: Prime number",

@@ -4,9 +4,9 @@
 #include "io_utils.h"
 #include <iostream>
 
-
+//class that saves mission data to be displayed when you want to replay
 class Rewind {
-	struct Change {
+	struct Change { //local struct, no need for it anywhere else
 		int x, y, lag;
 		char ch;
 	};
@@ -17,45 +17,25 @@ class Rewind {
 
 public:
 	void saveScreen(const char(&board)[24][81],  char (*menu)[82]) {
-		memcpy(startBoard, board, sizeof(char) * 24 * 81);
+		memcpy(startBoard, board, sizeof(char) * 24 * 81); //copy contents of starting board & menu, this only needs to be done once every mission
 		memcpy(startMenu, menu, sizeof(char) * 5 * 82);
-		lastChange = timeMs();
-		changes.clear();
+		lastChange = timeMs(); //this is the time when we finished copying
+		changes.clear(); //if this isn't the first mission, remove garbage left overs from last mission
 	}
 	void moreChanges(int x, int y, char ch) {
-		Change cg;
+		Change cg; //create a struct and give it all the data we got
 		cg.x = x;
 		cg.y = y;
 		cg.ch = ch;
-		long long int now = timeMs();
-		cg.lag = int(now - lastChange);
-		lastChange = now;
+		long long int now = timeMs(); //check the time right now (in MS) 
+		cg.lag = int(now - lastChange); //difference between last edit and this one in MS, will be injected directly into Sleep
+		lastChange = now; //this is the new last change time
 		changes.push_back(cg);
 	}
 	long long int timeMs() {
-		return std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch()).count();
+		return std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch()).count(); //only thing this big line does is return the time (since epoch) in MS
 	}
-	void go() {
-		int i, j;
-		for (i = 0; i < 5; ++i) {
-			for (j = 0; j < 80; ++j ) {
-				gotoxy(j, i);
-				std::cout << startMenu[i][j];
-			}
-		}
-		for (i = 0; i < 24; i++) {
-			for (j = 0; j < 80; j++) {
-				gotoxy(j, i + 5);
-				std::cout << startBoard[i][j];
-			}
-		}
-		for (auto item : changes) {
-			Sleep(item.lag);
-			gotoxy(item.y, item.x);
-			std::cout << item.ch;
-		}
-		Sleep(2000);
-	}
+	void go(); //prints everything that we saved
 };
 
 
