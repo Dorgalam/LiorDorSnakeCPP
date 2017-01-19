@@ -20,29 +20,46 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="ColFly.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="Countdown.h" />
+    <ClInclude Include="Creature.h" />
+    <ClInclude Include="fiveOP.h" />
     <ClInclude Include="io_utils.h" />
+    <ClInclude Include="LineFly.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="Mission.h" />
+    <ClInclude Include="MissionBank.h" />
+    <ClInclude Include="numberEater.h" />
+    <ClInclude Include="oneOP.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="randNumbers.h" />
+    <ClInclude Include="Rewind.h" />
     <ClInclude Include="Snake.h" />
     <ClInclude Include="TheSnakesGame.h" />
+    <ClInclude Include="threeOP.h" />
+    <ClInclude Include="twoOP.h" />
     <ClInclude Include="_board.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="ColFly.cpp" />
     <ClCompile Include="Countdown.cpp" />
+    <ClCompile Include="Creature.cpp" />
+    <ClCompile Include="fiveOP.cpp" />
     <ClCompile Include="io_utils.cpp" />
+    <ClCompile Include="LineFly.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="Mission.cpp" />
+    <ClCompile Include="MissionBank.cpp" />
+    <ClCompile Include="numberEater.cpp" />
+    <ClCompile Include="oneOP.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="randNumbers.cpp" />
     <ClCompile Include="Snake.cpp" />
     <ClCompile Include="TheSnakesGame.cpp" />
+    <ClCompile Include="threeOP.cpp" />
+    <ClCompile Include="twoOP.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BE5361DE-E591-4BB5-BF40-7B536495D41C}</ProjectGuid>

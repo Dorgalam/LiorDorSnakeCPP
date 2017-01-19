@@ -13,7 +13,8 @@
 #include "twoOP.h"
 #include "threeOP.h"
 #include "fiveOP.h"
-#define _CRT_SECURE_NO_WARNINGS
+#include "Rewind.h"
+
 using namespace std;
 
 enum { ROWS = 24, COLS = 80 ,SIZECR = 5};
@@ -28,6 +29,7 @@ class TheSnakesGame {
 	Menu theMenu;
 	//Mission mission;
 	randNumbers gameNumbers;
+	Rewind rwind;
 	int currMission;
 	int shownNumbers[60];
 	char originalBoard[ROWS][COLS + 1];	// this is the original board that we got (we need COLS+1 because we handle it as null terminated char*)
@@ -46,6 +48,9 @@ public:
 		//theMenu.setMission(2);
 		createCreatures();
 		system("mode con:cols=80 lines=30");
+	}
+	void addChangesToRewind(int x, int y, char let) {
+		rwind.moreChanges(x, y, let);
 	}
 	void setCreatures()
 	{
@@ -77,12 +82,13 @@ public:
 	int getCurrMission() {
 		return currMission;
 	}
+	void rewindNow() {
+		rwind.go();
+	}
 	void startMission();
 	void updateBullets(char symbol, int newAmount);
 	void printBoard();
-	void updateBoard(int x, int y, const char let) {
-		board[x][y] = let;
-	}
+	void updateBoard(int x, int y, const char let);
 	void setBoard(const char* boardToCopy[ROWS]);
 	void init();
 	void displayStartMenu();

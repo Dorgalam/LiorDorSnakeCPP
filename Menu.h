@@ -1,15 +1,14 @@
 #ifndef _MENU_H
 #define _MENU_H
 #include "io_utils.h"
-//#include "Mission.h"
 #include "MissionBank.h"
 #include <string>
-#define _CRT_SECURE_NO_WARNINGS
+#pragma once
 using namespace std;
 enum { EASY = '1', HARD = '2', EXTREME = '3' };
 
 enum { INSTRUCTIONS = '1', START='2', EXIT_START = '9' };
-enum { EXIT_MID = '1', MAIN_MENU='2', RESUME='3', RESTART_MISSION='4', NEW_MISSION='5', RESTART_GAME='6' };
+enum { EXIT_MID = '1', MAIN_MENU='2', RESUME='3', RESTART_MISSION='4', NEW_MISSION='5', RESTART_GAME='6', REWIND='7', ESC = 27 };
 enum {Plus=0,Minus,Mult,Div};
 class TheSnakesGame;
 //class Mission;
@@ -38,13 +37,14 @@ class Menu  {
 		"(2) hard",
 		"(3) Extreme",
 	}; //string levels
-	char *inGameMenu[6] = {
+	char *inGameMenu[7] = {
 		"(1) Exit",
 		"(2) Main Menu",
 		"(3) Resume",
 		"(4) Restart Mission",
 		"(5) New Mission",
 	    "(6) Restart Game",
+		"(7) Rewind last"
 	}; //menu items
 	char *missions[8] = {
 		"Look for: Prime number",
@@ -93,7 +93,8 @@ public:
 		cout << instructions;
 		displayStartMenu();
 	}
-	int displayIngameMenu();//print the menu options
+	void eraseInstructions();
+	int displayIngameMenu(bool finishMission = false);//print the menu options
 	void displayWinningMenu(int num);//display the snake that won the mission
 	void displayVictoryMenu(int num);//display the snake that won the game
 	void displayNumMenu(bool num);//display all the numbers that are correct answers mark
@@ -116,6 +117,9 @@ public:
 	void setBank(MissionBank ** _m)
 	{
 		m = _m;
+	}
+	auto getMenu() {
+		return screen;
 	}
 	void Menu::pickDifficulty();
 };

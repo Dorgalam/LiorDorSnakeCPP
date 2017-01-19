@@ -1,7 +1,8 @@
 #include "Menu.h"
 #include "TheSnakesGame.h"
 #include "Countdown.h"
-#include "MissionBase.h"
+#include <time.h>
+
 //#include <string>
 void Menu::print(Color c) {
 	int i = 0;
@@ -60,6 +61,7 @@ void Menu::displayStartMenu() {
 		switch (key) { //give correct output for all known results, otherwise look for another key
 		case START:
 			pickDifficulty();
+			eraseInstructions();
 			Countdown().start();
 			game->init();
 			goodChoice = true;
@@ -80,6 +82,11 @@ void Menu::displayStartMenu() {
 			key = _getch();
 			break;
 		}
+	}
+}
+void Menu::eraseInstructions() {
+	for (int i = 0; i < 10; i++) {
+		cout << "                                                                                ";
 	}
 }
 void Menu::pickDifficulty() {
@@ -126,7 +133,20 @@ void Menu::displayWinningMenu(int num)
 	clear(); //clears the screen and then shows who won
 	edit(1, 2, snakeWonMission[num]); 
 	print(YELLOW);
-	Sleep(2000);
+	int lagCount = 0;
+	char ch;
+	clock_t start = clock();
+	while (!_kbhit()) //Check for keyboard hit
+	{
+		if (((clock() - start) / CLOCKS_PER_SEC) >= 2)
+		{
+			start = clock();                            
+		}
+	}
+	ch = _getch();
+	if (ch == ESC) {
+		displayIngameMenu(true);
+	}
 }
 void Menu::displayVictoryMenu(int num)
 {
@@ -149,11 +169,12 @@ void Menu::displayNumMenu(bool found)
 	print(LIGHTCYAN);
 	Sleep(2500);
 }
-int Menu::displayIngameMenu() {
+int Menu::displayIngameMenu(bool finishMission) {
 	char key;
 	bool goodChoice = false;
+	int stop = (finishMission ? 7 : 6);
 	clear();
-	for (int i = 0; i < 6; i++) {
+	for (int i = 0; i < stop; i++) {
 		edit((i % 3) + 1, 2 + 20 * (i / 3), inGameMenu[i]);
 	}
 	print(WHITE);
@@ -189,6 +210,10 @@ int Menu::displayIngameMenu() {
 			break;
 		case RESTART_GAME:
 			game->init();
+			goodChoice = true;
+			break;
+		case REWIND:
+			game->rewindNow();
 			goodChoice = true;
 			break;
 		default:

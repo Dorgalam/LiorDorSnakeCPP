@@ -1,10 +1,16 @@
 #include "TheSnakesGame.h"
 #include "Bullet.h"
 #include "Creature.h"
+
 void TheSnakesGame::startMission() { //create random display new mission in menu
 	currMission = rand() % 8;
 	theMenu.newMission(currMission);//set the mission - on the menu
 	gameNumbers.setMissin(m[currMission], currMission);//set the mission - the rand numbers
+	rwind.saveScreen(board, theMenu.getMenu());
+}
+void TheSnakesGame::updateBoard(int x, int y, const char let) {
+	board[x][y] = let;
+	addChangesToRewind(x + 5, y, let);
 }
 void TheSnakesGame::finishMission()
 {
@@ -22,6 +28,7 @@ void TheSnakesGame::updateBullets(char symbol, int newAmount) {
 	numbers[0] = '0' + newAmount;
 	numbers[1] = '\0';
 	theMenu.edit(row, 76, numbers);
+	rwind.moreChanges(row, 76, numbers[0]);
 	theMenu.print(WHITE);
 }
 void TheSnakesGame::clearShoots()
@@ -531,6 +538,8 @@ MissionBank* TheSnakesGame::buildEXE(char *str)
 	case 5:
 		m = new fiveOP(str, &theMenu, numbers, operators);
 		break;
+	default:
+		m = nullptr;
 	}
 	return m;
 }

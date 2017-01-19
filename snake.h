@@ -8,7 +8,6 @@
 #include <vector>
 //#include "Mission.h"
 #include "Bullet.h"
-#include "MissionBase.h"
 class TheSnakesGame;
 class MissionBank;
 class Snake {
@@ -65,6 +64,7 @@ public:
 	void setColor(Color c) {
 		color = c;
 	}
+
 	Color getColor() {return color;}
 	int move(char opSymbol, int numOfMission);//handle the movement of the snake and checking that he's move to a free and legit place 
 	int getDirection(char key);//handle and adjust char direction input to int direction 
