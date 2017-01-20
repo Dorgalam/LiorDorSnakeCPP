@@ -213,6 +213,7 @@ int Menu::displayIngameMenu(bool finishMission) {
 			goodChoice = true;
 			break;
 		case RESTART_GAME:
+			
 			game->init();
 			goodChoice = true;
 			break;

@@ -1,6 +1,6 @@
 #ifndef _COLFLY_H_
 #define _COLFLY_H_
-#include "creature.h"
+#include "Creature.h"
 
 class TheSnakesGame;
 class ColFly :public Creature

@@ -1,6 +1,6 @@
 #ifndef _NUMBEREATER_H
 #define _NUMBEREATER_H
-#include "creature.h"
+#include "Creature.h"
 class TheSnakesGame;
 class numberEater :public Creature
 {

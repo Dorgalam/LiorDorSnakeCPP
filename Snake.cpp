@@ -19,7 +19,6 @@ void Snake:: clearSnake()
 		body[i].draw(' ');
 	}
 	if(direction==4) direction = 3;
-	//direction = 4;
 	
 }
 bool Snake::checkNotSnake(Snake *s, Point p) {//check that the snake's body is not in this point

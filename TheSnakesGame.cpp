@@ -114,6 +114,9 @@ void TheSnakesGame::init()
 	nextMission();
 	s[0]->setGame(this);
 	s[1]->setGame(this);
+	s[0]->newSnake(9, 10, RIGHT);
+	s[1]->newSnake(9, 70, LEFT);
+	gameNumbers.removeAll();
 	s[0]->setArrowKeys("wxad");
 	s[1]->setArrowKeys("imjl");
 }
@@ -137,8 +140,8 @@ void TheSnakesGame::handleMove(int snakeNum,int opsnakeNum ,int missionEnd,int &
 		if (missionEnd == 2)
 		{//ate a wrong number-erase the snakes from the board and screen+remove half of the numbers
 			s[opsnakeNum]->snakeGrow();
-			theMenu.displayWinningMenu(opsnakeNum);
 			gameNumbers.showNumbers(currMission);
+			theMenu.displayWinningMenu(opsnakeNum);
 			finishMission();
 		}
 		else if (missionEnd == 3)
@@ -422,8 +425,8 @@ bool TheSnakesGame::ObjectCollide(Point p, bool killBul, bool killSnake)
 			Sleep(150);
 			s[0]->Setsuspend(true);
 			s[1]->snakeGrow();
-			theMenu.displayWinningMenu(1);
 			gameNumbers.showNumbers(currMission);
+			theMenu.displayWinningMenu(1);
 			finishMission();
 		}
 		else
@@ -441,8 +444,8 @@ bool TheSnakesGame::ObjectCollide(Point p, bool killBul, bool killSnake)
 			Sleep(150);
 			s[1]->Setsuspend(true);
 			s[0]->snakeGrow();
-			theMenu.displayWinningMenu(0);
 			gameNumbers.showNumbers(currMission);
+			theMenu.displayWinningMenu(0);
 			finishMission();
 		}
 		else

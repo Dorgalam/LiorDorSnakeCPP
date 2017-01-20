@@ -12,7 +12,8 @@ Additional features:
   - Added another mission called isPalnidrome 
   - Screen is resized at the start to fit both the menu and the game perfectly
 
-
+sounds link - https://dl.dropboxusercontent.com/u/14869909/LiorDorSnakeCPPSounds.rar
+at the start of the game the user can choose level of difficulty -  between easy,hard and extreme that choise determine the text file to read the missions from,and the difficulty of the missions.
 
 License
 ----

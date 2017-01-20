@@ -122,7 +122,7 @@ public:
 	void killShot(const Point &p, bool kill);
 	int Creaturecollidesnake(Snake *s);//this function check if the snake's next move is one of the creatures- and handle each case .
 	bool ObjectCollide(Point p, bool killBul, bool killSnake);//this function handle object collide-and return if the object can do his next move (if free space or if he can kill the snake/bullet(whatever he ran into) and move on 
-    //this function go to the randNumbers on the board and check which correct number closer to the given point and return the next direction where to move to get closer .if there is no correct number return 4(don’t move)
+    //this function go to the randNumbers on the board and check which correct number closer to the given point and return the next direction where to move to get closer .if there is no correct number return 4(donï¿½t move)
 	int getNextMove(const Point &p){return gameNumbers.findCloseNum(p);}
 	bool creaturePlace(const Point &p);//this function check if the point is a creature 
 	bool handleCreatureCollideBul(int index, const Point& p);

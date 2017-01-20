@@ -2,8 +2,7 @@
 #ifndef _LINEFLY_H_
 #define _LINEFLY_H_
 #include "Creature.h"//parent
-//#include "TheSnakesGame.h"//uses game objects and functions
-//class Creature;
+
 class TheSnakesGame;
 class LineFly :public Creature
 {
