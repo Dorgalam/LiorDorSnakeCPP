@@ -52,7 +52,7 @@ void randNumbers::removeAll() {
 void randNumbers::removeHalf() {
 	int size = numVec.size();
 	int x, y;
-	for (int i = 0; i < size + 1 / 2; i++) {
+	for (int i = 0; i < (size + 1) / 2; i++) {
 		y = numVec[i].p.getY();
 		x = numVec[i].p.getX();
 		gotoxy(y, x + OFFSET);
@@ -61,7 +61,7 @@ void randNumbers::removeHalf() {
 			this->game->updateBoard(x, y + j, ' ');
 		}
 	}
-	numVec.erase(numVec.begin(), numVec.begin() + size / 2);
+	numVec.erase(numVec.begin(), numVec.begin() + (size+1) / 2);
 }
 void randNumbers::addNumber() {
 	numCoord newCoord = findSpot();
