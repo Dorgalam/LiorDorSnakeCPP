@@ -1,6 +1,7 @@
 #include "TheSnakesGame.h"
 #include "Bullet.h"
 #include "Creature.h"
+#include <typeinfo>
 
 void TheSnakesGame::startMission() { //create random display new mission in menu
 	currMission = rand() % 8;
@@ -236,9 +237,9 @@ void TheSnakesGame::run()
 			else if ((dir = s[1]->getDirection(key)) != -1)
 				s[1]->setDirection(dir);
 		}
+		handleCreatureMove();
 		handleMove(0, 1, missionEnd, susCount1);//moving the snake and handle avery possible case(eating number,coliide with bullet and so on)
 		handleMove(1, 0, missionEnd, susCount2);
-		handleCreatureMove();
 		if (gameNumbers.getSize() == 60)
 		{
 			bool wasCorrectAnswer = gameNumbers.showNumbers(currMission);//show the numbers that is correct
@@ -310,10 +311,11 @@ bool TheSnakesGame::checkValidMove(Bullet b, int index)
 	}
 	else if (nextSpot != ' ')
 	{
-		handleCreatureCollideBul(index,nextPoint);
-		bullets[index].clearBul();
-		deleteShot(index);//delete shot
-		//deal with the object - can do switch case
+		if(!handleCreatureCollideBul(index,nextPoint))
+		{	
+			bullets[index].clearBul();
+			deleteShot(index);//delete shot
+		}//deal with the object - can do switch case
 	}
 	else
 		return true;
@@ -396,18 +398,16 @@ int TheSnakesGame::Creaturecollidesnake(Snake *s)
 			if (typeid(*cr[i]) == typeid(numberEater))//if you are number eater
 			{
 				Sleep(150);
-				return 2;
+				return 2;//die
 			}
-			else 
+		/*	else 
 			{
 				Creature *derived = dynamic_cast<Creature*>(cr[i]);
 				if (derived)
 				{
-					//if (typeid(derived) != typeid(LineFly))
-						//return 3;
-					return 3;//3
+					return 1;//suspend
 				}
-			}
+			}*/
 		}
 	}
 	return 0;
@@ -464,18 +464,21 @@ bool TheSnakesGame::ObjectCollide(Point p, bool killBul, bool killSnake)
 	////need to add the other objects - decide to do nothing or to kill both
 	return true;
 }
-void TheSnakesGame::handleCreatureCollideBul(int index,const Point& p)
+bool TheSnakesGame::handleCreatureCollideBul(int index,const Point& p)
 {
 	for (int i = 0; i < SIZECR; i++)
 	{
-		if ((typeid(*cr[i]) == typeid(numberEater) || typeid(*cr[i]) == typeid(ColFly))&& cr[i]->getPoint().isSame(p) && !cr[i]->isSuspend())
+		if (((typeid(*cr[i]) == typeid(numberEater)) || (typeid(*cr[i]) == typeid(ColFly))) && cr[i]->getPoint().isSame(p) && !cr[i]->isSuspend())
 		{//if you kind of creature that sensitive to bullet 
 			bullets[index].getfSnake()->addBullet();
 			cr[i]->setSuspend(true);
 			cr[i]->clearCr();
-			return;
+			return false;
 		}
+		else if ((typeid(*cr[i]) == typeid(LineFly) && cr[i]->getPoint().isSame(p)))
+			return false;
 	}
+	return true;
 }
 bool TheSnakesGame::creaturePlace(const Point &p)
 {

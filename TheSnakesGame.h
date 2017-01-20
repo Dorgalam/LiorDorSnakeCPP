@@ -125,7 +125,7 @@ public:
     //this function go to the randNumbers on the board and check which correct number closer to the given point and return the next direction where to move to get closer .if there is no correct number return 4(don’t move)
 	int getNextMove(const Point &p){return gameNumbers.findCloseNum(p);}
 	bool creaturePlace(const Point &p);//this function check if the point is a creature 
-	void handleCreatureCollideBul(int index, const Point& p);
+	bool handleCreatureCollideBul(int index, const Point& p);
 	void handleCreatureMove();//this function move the creatures,number eaters and Line fly double speed
 };
 
