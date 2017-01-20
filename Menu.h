@@ -93,6 +93,7 @@ public:
 		cout << instructions;
 		displayStartMenu();
 	}
+	void wait2Secs();
 	void eraseInstructions();
 	int displayIngameMenu(bool finishMission = false);//print the menu options
 	void displayWinningMenu(int num);//display the snake that won the mission

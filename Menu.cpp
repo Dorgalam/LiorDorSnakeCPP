@@ -133,6 +133,10 @@ void Menu::displayWinningMenu(int num)
 	clear(); //clears the screen and then shows who won
 	edit(1, 2, snakeWonMission[num]); 
 	print(YELLOW);
+	wait2Secs();
+	
+}
+void Menu::wait2Secs() {
 	int lagCount = 0;
 	char ch = 0;
 	time_t now = time(&now), later = time(&later);
@@ -167,7 +171,7 @@ void Menu::displayNumMenu(bool found)
 	clear();
 	edit(1, 2, Num60Menu[num]); 
 	print(LIGHTCYAN);
-	Sleep(2500);
+	wait2Secs();
 }
 int Menu::displayIngameMenu(bool finishMission) {
 	char key;
