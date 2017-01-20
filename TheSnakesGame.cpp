@@ -1,6 +1,7 @@
 #include "TheSnakesGame.h"
 #include "Bullet.h"
 #include "Creature.h"
+<<<<<<< HEAD
 
 void TheSnakesGame::startMission() { //create random display new mission in menu
 	currMission = rand() % 8;
@@ -15,10 +16,15 @@ void TheSnakesGame::updateBoard(int x, int y, const char let) {
 void TheSnakesGame::finishMission()
 {
 	m[currMission]->initMis();
+=======
+void TheSnakesGame::finishMission()
+{
+>>>>>>> master
 	s[0]->clearSnake();
 	s[1]->clearSnake();
 	theMenu.updateScoreBoard(s[0]->getSize(), s[1]->getSize());
 	gameNumbers.removeHalf();//clean the half board and the snakes
+<<<<<<< HEAD
 	nextMission();//go to next mission
 	theMenu.updateScoreBoard(s[0]->getSize(), s[1]->getSize());
 }
@@ -31,6 +37,13 @@ void TheSnakesGame::updateBullets(char symbol, int newAmount) {
 	rwind.moreChanges(row, 76, numbers[0]);
 	theMenu.print(WHITE);
 }
+=======
+	if (currMission == 7)
+		mission.free7();
+	nextMission();//go to next mission
+	theMenu.updateScoreBoard(s[0]->getSize(), s[1]->getSize());
+}
+>>>>>>> master
 void TheSnakesGame::clearShoots()
 {
 	for (unsigned int i = 0; i < bullets.size(); i++)
@@ -39,6 +52,7 @@ void TheSnakesGame::clearShoots()
 	}
 	bullets.clear();
 }
+<<<<<<< HEAD
 void TheSnakesGame::displayStartMenu() {
 	s[0]->clearBody();
 	s[1]->clearBody();
@@ -49,6 +63,8 @@ void TheSnakesGame::displayStartMenu() {
 	theMenu.displayStartMenu();
 
 }
+=======
+>>>>>>> master
 void TheSnakesGame::setSnakes()
 {
 	s[0]->Setsuspend(false);
@@ -111,6 +127,14 @@ void TheSnakesGame::init()
 		board[i][COLS] = '\0';
 	}
 	nextMission();
+<<<<<<< HEAD
+=======
+	/*for (unsigned int i = 0; i < bullets.size(); i++)
+	{
+		bullets[i].clearBul();
+	}
+	bullets.clear();*/
+>>>>>>> master
 	s[0]->setGame(this);
 	s[1]->setGame(this);
 	s[0]->setArrowKeys("wxad");
@@ -156,11 +180,14 @@ void TheSnakesGame::userSelectionMenu(char &key)
 	int clickedEscape = theMenu.displayIngameMenu();
 	if (clickedEscape != 1) {
 		key = rand() % 4;
+<<<<<<< HEAD
 		if (clickedEscape != 3)
 		{
 			for (int i = 0; i < SIZECR; i++)
 				cr[i]->setSuspend(false);
 		}
+=======
+>>>>>>> master
 		if (clickedEscape != 3 && clickedEscape != 6 && clickedEscape != 2)
 		{
 			s[0]->clearSnake();
@@ -183,6 +210,7 @@ void TheSnakesGame::userSelectionMenu(char &key)
 	else
 		key = ESC;
 }
+<<<<<<< HEAD
 void TheSnakesGame::handleCreatureMove()
 {
 	for (int i = 0; i < SIZECR; i++)
@@ -192,6 +220,8 @@ void TheSnakesGame::handleCreatureMove()
 			cr[i]->move();
 	}
 }
+=======
+>>>>>>> master
 void TheSnakesGame::run()
 {
 	int count = 1,susCount1 = 1,susCount2 = 1,dir,missionEnd;
@@ -238,7 +268,13 @@ void TheSnakesGame::run()
 		}
 		handleMove(0, 1, missionEnd, susCount1);//moving the snake and handle avery possible case(eating number,coliide with bullet and so on)
 		handleMove(1, 0, missionEnd, susCount2);
+<<<<<<< HEAD
 		handleCreatureMove();
+=======
+		for (int i = 0; i < SIZECR; i++)
+			cr[i]->move();
+		
+>>>>>>> master
 		if (gameNumbers.getSize() == 60)
 		{
 			bool wasCorrectAnswer = gameNumbers.showNumbers(currMission);//show the numbers that is correct
@@ -266,6 +302,7 @@ void TheSnakesGame::run()
 	s[1]->~Snake();
 
 }
+<<<<<<< HEAD
 bool TheSnakesGame::checkValidMove(Bullet b, int index)
 {
 	Point nextPoint = b.GetNext();//b.next
@@ -318,6 +355,59 @@ bool TheSnakesGame::checkValidMove(Bullet b, int index)
 	else
 		return true;
 	return false;
+=======
+bool TheSnakesGame::checkValidMove(Bullet b,int index)
+{
+Point nextPoint = b.GetNext();//b.next
+char nextSpot = boardChar(nextPoint);
+if (nextSpot >= '0' && nextSpot <= '9') {
+	b.clearBul();
+	deleteShot(index);
+	DeletNumFromArray(nextPoint);//kill the number
+}
+else if (nextSpot == s[0]->getSymbol())//check if the next direction is already taken - 
+{
+	if (b.getfSnake()->getSymbol() != s[0]->getSymbol())
+		s[1]->addBullet();//add bullet as reward for killing the rival's snake
+	b.clearBul();
+	deleteShot(index);//delete shot
+	s[0]->clearSnake();
+	s[0]->Setsuspend(true);//kill snake
+}
+else if (nextSpot == s[1]->getSymbol())//check if the next direction is already taken - 
+{
+	if (b.getfSnake()->getSymbol() != s[1]->getSymbol())
+		s[0]->addBullet();//add bullet as reward for killing the rival's snake
+	b.clearBul();
+	deleteShot(index);//delete shot
+	s[1]->clearSnake();
+	s[1]->Setsuspend(true);//kill snake
+}
+else if (nextSpot == '*')
+{//check for shots collide - in this case delete the shots
+	for (unsigned int j = 0; j < bullets.size(); j++)
+	{
+		//if (bullets[i].getBullet().getX() != bullets[j].getBullet().getX()&& bullets[i].getBullet().getY() != bullets[j].getBullet().getY())
+		if (nextPoint.isSame(bullets[j].getBullet()))
+		{//shots COLLIDE
+			b.clearBul();
+			bullets[j].clearBul();
+			deleteShot(max(j, (unsigned int)index));//delete shot 2
+			deleteShot(min((unsigned int)index, j));//delete shot 1
+			j = bullets.size();
+		}
+	}
+}
+else if (nextSpot != ' ')
+{
+	b.clearBul();
+	deleteShot(index);//delete shot
+	//deal with the object - can do switch case
+}
+else
+	return true;
+return false;
+>>>>>>> master
 }
 void TheSnakesGame::moveBul()
 {//this function go over all the bullets and move them one step(point) if there is a collision taking care of it as required
@@ -330,6 +420,7 @@ void TheSnakesGame::moveBul()
 		}
 	}
 }
+<<<<<<< HEAD
 void TheSnakesGame::deleteShot(int i) {
 	if (bullets.size() == 1)
 		bullets.clear();
@@ -350,6 +441,8 @@ void TheSnakesGame::killShot(const Point &p, bool kill)
 		}
 	}
 }
+=======
+>>>>>>> master
 void TheSnakesGame::addShot(int numSnake)
 {
 	bool havebul = s[numSnake]->deleteBullet();//the snake down one bullet(if he has any left)
@@ -389,6 +482,7 @@ int TheSnakesGame::Creaturecollidesnake(Snake *s)
 	Point nextPoint = s->getbodyPlace().next(s->getDirection());
 	for (unsigned int i = 0; i < SIZECR; i++)
 	{
+<<<<<<< HEAD
 		if (nextPoint.isSame(cr[i]->getPoint())&&!cr[i]->isSuspend())
 		{
 			s->Setsuspend(true);
@@ -396,6 +490,14 @@ int TheSnakesGame::Creaturecollidesnake(Snake *s)
 			if (typeid(*cr[i]) == typeid(numberEater))//if you are number eater
 			{
 				Sleep(150);
+=======
+		if (nextPoint.isSame(cr[i]->p))
+		{
+			s->Setsuspend(true);
+			if (typeid(*cr[i]) == typeid(numberEater))//if you are number eater
+			{
+				s->clearSnake();
+>>>>>>> master
 				return 2;
 			}
 			else 
@@ -403,15 +505,21 @@ int TheSnakesGame::Creaturecollidesnake(Snake *s)
 				Creature *derived = dynamic_cast<Creature*>(cr[i]);
 				if (derived)
 				{
+<<<<<<< HEAD
 					//if (typeid(derived) != typeid(LineFly))
 						//return 3;
 					return 3;//3
+=======
+					s->clearSnake();
+					return 3;
+>>>>>>> master
 				}
 			}
 		}
 	}
 	return 0;
 }
+<<<<<<< HEAD
 bool TheSnakesGame::ObjectCollide(Point p, bool killBul, bool killSnake)
 {//this function handle object collide-and return if the object can do his next move (if free space or if he can kill the snake/bullet(whatever he ran into) and move on
 	if (isWall(p, s[0]->getSymbol()))
@@ -542,4 +650,45 @@ MissionBank* TheSnakesGame::buildEXE(char *str)
 		m = nullptr;
 	}
 	return m;
+=======
+bool TheSnakesGame::ObjectCollide(Point p, bool killBul, bool killSnake)
+{//this function handle object collide-and return if the object can do his next move (if free space or if he can kill the snake/bullet(whatever he ran into) and move on
+	if (isWall(p, s[0]->getSymbol()))
+	{
+		if (killSnake)
+		{
+			s[1]->snakeGrow();
+			theMenu.displayWinningMenu(1);
+			gameNumbers.showNumbers(currMission);
+			finishMission();
+		}
+		s[0]->clearSnake();
+		s[0]->Setsuspend(true);
+		return killSnake;
+	}
+	if (isWall(p, s[1]->getSymbol()))
+	{
+		if (killSnake)
+		{
+			s[0]->snakeGrow();
+			theMenu.displayWinningMenu(0);
+			gameNumbers.showNumbers(currMission);
+			finishMission();
+		}
+		s[1]->clearSnake();
+		s[1]->Setsuspend(true);
+		return killSnake;
+	}
+	if (isWall(p, '*'))
+	{
+		killShot(p, killBul);
+		return killBul;
+	}
+	if ('0' <= boardChar(p) <= '9')
+	{
+		gameNumbers.DeleteNum(p);
+	}
+	////need to add the other objects - decide to do nothing or to kill both
+	return true;
+>>>>>>> master
 }

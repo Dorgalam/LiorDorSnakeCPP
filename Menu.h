@@ -55,7 +55,11 @@ class Menu  {
 		"Look for the number 13^2",
 		"Look for: Palindrome number",
 	}; // string missions
+<<<<<<< HEAD
 	char *missionsBank[8] = {
+=======
+	char *missionsBank[5] = {
+>>>>>>> master
 		
 	}; // string missions
 	char *instructions = {

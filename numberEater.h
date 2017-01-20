@@ -11,7 +11,10 @@ public:
 	~numberEater() {}
 	virtual void move();
 	virtual void setSuspend(bool newState) { suspend=newState; }
+<<<<<<< HEAD
 	virtual bool isSuspend() { return suspend; }
+=======
+>>>>>>> master
 	void setDraw();
 
 };
