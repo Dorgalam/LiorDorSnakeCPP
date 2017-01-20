@@ -8,7 +8,6 @@ void Rewind::go() {
 			std::cout << startMenu[i][j];
 		}
 	}
-	setTextColor(YELLOW);
 	for (i = 0; i < 24; i++) {
 		for (j = 0; j < 80; j++) {
 			gotoxy(j, i + 5);

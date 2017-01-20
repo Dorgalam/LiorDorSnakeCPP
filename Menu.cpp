@@ -213,9 +213,11 @@ int Menu::displayIngameMenu(bool finishMission) {
 			goodChoice = true;
 			break;
 		case REWIND:
-			game->rewindNow();
-			goodChoice = true;
-			break;
+			if (finishMission) {
+				game->rewindNow();
+				goodChoice = true;
+				break;
+			}
 		default:
 			while (!_kbhit())
 			{
