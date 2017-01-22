@@ -157,7 +157,15 @@ void TheSnakesGame::handleMove(int snakeNum,int opsnakeNum ,int missionEnd,int &
 }
 void TheSnakesGame::userSelectionMenu(char &key)
 {
-	int clickedEscape = theMenu.displayIngameMenu();
+	int clickedEscape = theMenu.displayIngameMenu(false);
+	if (clickedEscape == 7)
+	{
+		clickedEscape = theMenu.displayIngameMenu(false);
+		while (clickedEscape == 7)
+		{
+			clickedEscape = theMenu.displayIngameMenu();
+		}
+	}
 	if (clickedEscape != 1) {
 		key = rand() % 4;
 		if (clickedEscape != 3)
@@ -169,9 +177,12 @@ void TheSnakesGame::userSelectionMenu(char &key)
 		{
 			s[0]->clearSnake();
 			s[1]->clearSnake();
-			setSnakes();
 			if (clickedEscape == 4)
+			{
 				gameNumbers.removeAll();
+				rwind.saveScreen(board, theMenu.getMenu());
+			}
+			setSnakes();
 		}
 		else if (clickedEscape == 6)
 		{
@@ -181,7 +192,6 @@ void TheSnakesGame::userSelectionMenu(char &key)
 			s[1]->newSnake(9, 70, LEFT);
 			gameNumbers.removeAll();
 			theMenu.updateScoreBoard(s[0]->getSize(), s[1]->getSize());
-
 		}
 	}
 	else

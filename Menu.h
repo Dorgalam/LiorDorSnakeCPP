@@ -69,6 +69,10 @@ class Menu  {
 		"There is no correct number ,good try!!!",
 		"The yellow numbers were possible answers,try better",
 	};
+	char *REP[2] = {
+		"Starting next mission!!!",
+		"Good Luck !! ",
+	};
 	char *victoryMenu[2] = {
 		"congratulation:) snake 1 won the game!!!",
 		"congratulation:) snake 2 won the game!!!",

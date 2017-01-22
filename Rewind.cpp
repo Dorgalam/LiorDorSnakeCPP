@@ -15,6 +15,8 @@ void Rewind::go() {
 		}
 	}
 	for (auto item : changes) {
+		if (item.lag > 1000)
+			item.lag = 500;
 		Sleep(item.lag);
 		gotoxy(item.y, item.x);
 		std::cout << item.ch;

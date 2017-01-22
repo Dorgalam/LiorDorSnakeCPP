@@ -173,12 +173,11 @@ void Menu::displayNumMenu(bool found)
 	print(LIGHTCYAN);
 	wait2Secs();
 }
-int Menu::displayIngameMenu(bool finishMission) {
+int Menu::displayIngameMenu(bool finishMission ) {
 	char key;
 	bool goodChoice = false;
-	int stop = (finishMission ? 7 : 6);
 	clear();
-	for (int i = 0; i < stop; i++) {
+	for (int i = 0; i < 7; i++) {
 		edit((i % 3) + 1, 2 + 20 * (i / 3), inGameMenu[i]);
 	}
 	print(WHITE);
@@ -213,16 +212,21 @@ int Menu::displayIngameMenu(bool finishMission) {
 			goodChoice = true;
 			break;
 		case RESTART_GAME:
-			
 			game->init();
 			goodChoice = true;
 			break;
 		case REWIND:
-			if (finishMission) {
 				game->rewindNow();
 				goodChoice = true;
+				if (finishMission)
+				{
+					clear();
+					edit(1,20, REP[0]);
+					edit(2, 20, REP[1]);
+					print(LIGHTGREEN);
+					Sleep(3000);
+				}
 				break;
-			}
 		default:
 			while (!_kbhit())
 			{
